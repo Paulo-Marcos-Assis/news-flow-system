@@ -1,0 +1,1 @@
+# Licitação quali checker

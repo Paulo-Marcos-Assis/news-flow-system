@@ -1,0 +1,18 @@
+# Arquivo: pyproject.toml
+
+# SEÇÃO 1: O "COMO CONSTRUIR" (O que estava faltando)
+# Esta seção diz ao pip/uv para usar a ferramenta 'setuptools' para construir o projeto.
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+# SEÇÃO 2: O "O QUE É" (Os metadados do projeto)
+# Esta seção define o nome e a versão do seu pacote.
+[project]
+name = "meu_projeto_nfe"  # Você pode escolher o nome que quiser
+version = "0.0"          # A versão inicial
+
+# SEÇÃO 3: O "ONDE ESTÁ O CÓDIGO"
+# Esta seção diz ao setuptools para encontrar todo o código dentro da pasta 'src'.
+[tool.setuptools.packages.find]
+where = ["src"]

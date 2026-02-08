@@ -1,0 +1,352 @@
+[{
+    "documento": {
+        "tipo_documento": "Edital"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": null,
+        "numero_edital": "173/2025",
+        "data_limite": null,
+        "descricao_objeto": "contratacao de empresa especializada para execucao de pavimentacao intertravada, drenagem e sinalizacao viaria do beco xavantina, bairro: barra do trombudo, rio do sul/sc",
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Rio do Sul"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Rio do Sul"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Concorrência"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": "7659522",
+        "titulo_dom": "CONCORRÊNCIA ELETRÔNICA Nº 173/2025",
+        "data_publicacao_dom": "2025-10-13 07:22:14",
+        "codigo_sfinge": "C967B57E45651E294D2AA6F1D8F6E1577C501C61",
+        "url_pdf_dom": "https://diariomunicipal.sc.gov.br/arquivosbd/atos/2025/10/1760350911_edital_nr._173.2025__ce__beco_xavantina_assinado_extrato.pdf",
+        "url_dom": "https://diariomunicipal.sc.gov.br/?q=id:7659522"
+    },
+    "raw_data_id": "68ee776d53ac94c376f36586",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Termo de Homologação"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "99/2025",
+        "numero_edital": "7/2025",
+        "data_limite": null,
+        "descricao_objeto": "da concorrencia eletronica no",
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Jaguaruna"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Jaguaruna"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Concorrência"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": "7659546",
+        "titulo_dom": "PA N.º 99/2025 - CE N.º 07/2025 - TERMO DE HOMNOLOGAÇÃO",
+        "data_publicacao_dom": "2025-10-13 07:41:49",
+        "codigo_sfinge": "79EEDB5A3B8D962F17443CCF7B63237019F9D9B3",
+        "url_pdf_dom": "https://diariomunicipal.sc.gov.br/arquivosbd/atos/2025/10/1760352098_termo_homologacao_1_extrato.pdf",
+        "url_dom": "https://diariomunicipal.sc.gov.br/?q=id:7659546"
+    },
+    "raw_data_id": "68ee776d53ac94c376f36587",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Aviso de Licitação"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "82/2025",
+        "numero_edital": null,
+        "data_limite": null,
+        "descricao_objeto": null,
+        "data_abertura_certame": "24/10/2025"
+    },
+    "ente": {
+        "ente": "Apiuna"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura Municipal de Apiúna"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Pregão Eletrônico"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": "7659550",
+        "titulo_dom": "EDITAL Nº 82/2025 - PREGÃO ELETRONICO-SRP",
+        "data_publicacao_dom": "2025-10-13 07:43:52",
+        "codigo_sfinge": "7A780ADDC30419DFFC2C06C7AC6574B1007A06B5",
+        "url_pdf_dom": "https://diariomunicipal.sc.gov.br/arquivosbd/atos/2025/10/1760352224_aviso_de_licitao_extrato.pdf",
+        "url_dom": "https://diariomunicipal.sc.gov.br/?q=id:7659550"
+    },
+    "raw_data_id": "68ee776d53ac94c376f36588",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Aviso de Licitação"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "173/2025",
+        "numero_edital": "09/2025",
+        "data_limite": null,
+        "descricao_objeto": null,
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Bandeirante"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Bandeirante"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Concorrência"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": "7659551",
+        "titulo_dom": "LICITAÇÃO Nº 173/2025 PREFEITURA",
+        "data_publicacao_dom": "2025-10-13 07:44:12",
+        "codigo_sfinge": null,
+        "url_pdf_dom": "https://diariomunicipal.sc.gov.br/arquivosbd/atos/2025/10/1760352243_extrato_de_edital_pl_1732025__ampliao_cei_nosso_sonho_extrato.pdf",
+        "url_dom": "https://diariomunicipal.sc.gov.br/?q=id:7659551"
+    },
+    "raw_data_id": "68ee776d53ac94c376f36589",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Termo de Homologação"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "110/2025",
+        "numero_edital": null,
+        "data_limite": null,
+        "descricao_objeto": "servico: pedreiro: construcao de bancadas -montagem de estruturas externas e internas - execucao de servicos de construcao de bancadas e casinhas em mdf, a serem instaladas na avenida pedro zapelini, como parte da programacao do evento de natal",
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Gravatal"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Gravatal"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Inexigibilidade de Licitação"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": "7659554",
+        "titulo_dom": "TERMO DE HOMOLOGAÇÃO - PROCESSO N°: 110/2025 - LICITAÇÃO N°: 58/2025",
+        "data_publicacao_dom": "2025-10-13 07:45:50",
+        "codigo_sfinge": "6C3B54328EB074BCAB8EE2E3E613DCCDC542A6E8",
+        "url_pdf_dom": "https://diariomunicipal.sc.gov.br/arquivosbd/atos/2025/10/1760352285_th204120251093_extrato.pdf",
+        "url_dom": "https://diariomunicipal.sc.gov.br/?q=id:7659554"
+    },
+    "raw_data_id": "68ee776d53ac94c376f3658a",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Termo de Homologação"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "111/2025",
+        "numero_edital": null,
+        "data_limite": null,
+        "descricao_objeto": "servico: pedreiro: construcao de bancadas - montagem de estruturas externas e internas - construcao de torres decorativas em mdf, que compoem a cenografia do evento \"natal das aguas",
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Gravatal"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Gravatal"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Inexigibilidade de Licitação"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": "7659557",
+        "titulo_dom": "TERMO DE HOMOLOGAÇÃO - PROCESSO N°: 111/2025 - LICITAÇÃO N°: 59/2025",
+        "data_publicacao_dom": "2025-10-13 07:45:49",
+        "codigo_sfinge": "E7FCBD52A511BD98D5FBCB9ACE12981EB4D507BB",
+        "url_pdf_dom": "https://diariomunicipal.sc.gov.br/arquivosbd/atos/2025/10/1760352340_th204120251103_extrato.pdf",
+        "url_dom": "https://diariomunicipal.sc.gov.br/?q=id:7659557"
+    },
+    "raw_data_id": "68ee776d53ac94c376f3658b",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Extrato de Contrato"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": null,
+        "numero_edital": "143/2025",
+        "data_limite": null,
+        "descricao_objeto": "dispensa de licitacao para contratacao de empresa especializada para prestacao de servicos de planejamento, organizacao e realizacao de processo seletivo para a prefeitura municipal de guaramirim",
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Guaramirim"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Guaramirim"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Dispensa de Licitação"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": "7659590",
+        "titulo_dom": "EXTRATO DO CONTRATO 96/2025 PMG - DISPENSA DE LICITAÇÃO Nº 143/2025 – PMG",
+        "data_publicacao_dom": "2025-10-13 08:06:52",
+        "codigo_sfinge": null,
+        "url_pdf_dom": "https://diariomunicipal.sc.gov.br/arquivosbd/atos/2025/10/1760353605_extrato_contrato_extrato.pdf",
+        "url_dom": "https://diariomunicipal.sc.gov.br/?q=id:7659590"
+    },
+    "raw_data_id": "68ee776d53ac94c376f3658d",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Edital"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "127/2025",
+        "numero_edital": "127/2025",
+        "data_limite": null,
+        "descricao_objeto": "a contratacao de e empresa especializada de engenharia para execucao de pavimentacao em lajotas hexagonais de concreto, drenagem pluvial, e sinalizacao viaria na rua filomena capistrano, 255,40 metros, no municipio de imbuia/sc, objetivando execucao de acoes relativas ao plano de acao 09032025-083878, infraestrura urbana, modalidade transferencia especial, programa 09032025, emenda parlamentar 202540620003, celebrado entre a uniao federal por intermedio do ministerio da fazenda e o municipio de imbuia/sc, de conformidade com os projetos, memoriais descritivos, quadros de quantidades (orcamentos) e cronogramas fisico-financeiros e demais documentos pertinentes ao projeto em anexo, cujas especificacoes detalhadas encontram-se na relacao dos itens da licitacao, que faz parte integrante deste edital como anexo i.sendo que a mesma sera gravada na sua integra em audio e video, o qual arquivo fara parte no processo",
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Imbuia"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Imbuia"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Concorrência"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": "7659596",
+        "titulo_dom": "CONCORRÊNCIA PARA OBRAS E SERVIÇOS DE ENGENHARIA N° 127/2025",
+        "data_publicacao_dom": "2025-10-13 08:08:55",
+        "codigo_sfinge": "40F022EE4D9A65C0F7F182BBFC1795FDA6B7F05B",
+        "url_pdf_dom": "https://diariomunicipal.sc.gov.br/arquivosbd/atos/2025/10/1760353678_extrato_127_2025__rua_filomena_capistrano_dom__doe__anoticia_extrato.pdf",
+        "url_dom": "https://diariomunicipal.sc.gov.br/?q=id:7659596"
+    },
+    "raw_data_id": "68ee776d53ac94c376f3658e",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Termo Aditivo"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "99/2025",
+        "numero_edital": "001/2025",
+        "data_limite": null,
+        "descricao_objeto": null,
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Ilhota"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Ilhota"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Concorrência"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": "7659603",
+        "titulo_dom": "CONTRATO 21-2025 - ADITIVO 01 - CP - 001 - 2025 - FMS - CONSTRUÇÃO CAPS - VB CONSTRUÇÃO CIVIL LTDA",
+        "data_publicacao_dom": "2025-10-13 09:13:09",
+        "codigo_sfinge": null,
+        "url_pdf_dom": "https://diariomunicipal.sc.gov.br/arquivosbd/atos/2025/10/1760357583_publicar_extrato.pdf",
+        "url_dom": "https://diariomunicipal.sc.gov.br/?q=id:7659603"
+    },
+    "raw_data_id": "68ee776d53ac94c376f3658f",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Termo de Homologação"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "321/2025",
+        "numero_edital": "50/2025",
+        "data_limite": null,
+        "descricao_objeto": "pagamento da taxa de direitos autorais referente a realizacao da feira movimenta guaraciaba, dias 02 a 05 de outubro de 2025, no municipio de guaraciaba",
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Guaraciaba"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Guaraciaba"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Inexigibilidade de Licitação"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": "7659606",
+        "titulo_dom": "EXTRATO DO TERMO DE HOMOLOGAÇÃO PROCESSO LICITATÓRIO Nº 321/2025 INEXIGIBILIDADE 50/205 - PMGBA",
+        "data_publicacao_dom": "2025-10-13 08:12:31",
+        "codigo_sfinge": "E7FF99A5A34E989F3F6C4F0C6604922A4CEA3673",
+        "url_pdf_dom": "https://diariomunicipal.sc.gov.br/arquivosbd/atos/2025/10/1760353945_termo_de_homologao_extrato.pdf",
+        "url_dom": "https://diariomunicipal.sc.gov.br/?q=id:7659606"
+    },
+    "raw_data_id": "68ee776d53ac94c376f36590",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Aviso de Dispensa"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "0674/2025",
+        "numero_edital": "0300/2025",
+        "data_limite": null,
+        "descricao_objeto": "contratacao de empresa especializada em servicos de metalurgia para reforma, pintura, montagem e recuperacao das estruturas do acervo natalino do municipio de xaxim/sc valor total: r$ 17.250,00 (dezessete mil, duzentos e cinquenta reais) fornecedor: marciano moreschi das chagas cnpj: 46.555.530/0001-05",
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Xaxim"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Xaxim"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Dispensa de Licitação"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": "7659610",
+        "titulo_dom": "AVISO DE DISPENSA DE LICITAÇÃO N° 0300/2025",
+        "data_publicacao_dom": "2025-10-13 08:14:38",
+        "codigo_sfinge": null,
+        "url_pdf_dom": "https://diariomunicipal.sc.gov.br/arquivosbd/atos/2025/10/1760354027_aviso_processo_n_0674__dispensa_n_0300__2025__reforma_estrutura_natalinas_extrato.pdf",
+        "url_dom": "https://diariomunicipal.sc.gov.br/?q=id:7659610"
+    },
+    "raw_data_id": "68ee776d53ac94c376f36591",
+    "data_source": "DOM"
+}]

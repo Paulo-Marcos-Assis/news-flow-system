@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Test</title>
+    <style>
+        body { background: #1a1a2e; color: #eee; font-family: sans-serif; padding: 20px; }
+        .error { color: #e94560; }
+        .success { color: #7bed9f; }
+        pre { background: #0f3460; padding: 10px; overflow: auto; max-height: 300px; }
+    </style>
+</head>
+<body>
+    <h1>Debug Test</h1>
+    <div id="status">Checking...</div>
+    <div id="output"></div>
+    
+    <script>
+        try {
+            // Test 1: Simple data
+            var testData = [{"a": 1}, {"b": 2}];
+            document.getElementById('status').innerHTML = '<span class="success">Basic JS works</span>';
+            
+            // Test 2: Check if INPUTS exists after we define it
+        } catch(e) {
+            document.getElementById('status').innerHTML = '<span class="error">Error: ' + e.message + '</span>';
+        }
+    </script>
+    
+    <script>
+        // Separate script block for the actual data
+        var INPUTS = [{"test": true}];
+        var OUTPUTS = [{"test": true}];
+        
+        document.getElementById('output').innerHTML = 
+            '<p>INPUTS type: ' + typeof INPUTS + '</p>' +
+            '<p>INPUTS length: ' + (INPUTS ? INPUTS.length : 'undefined') + '</p>' +
+            '<p>OUTPUTS length: ' + (OUTPUTS ? OUTPUTS.length : 'undefined') + '</p>';
+    </script>
+</body>
+</html>

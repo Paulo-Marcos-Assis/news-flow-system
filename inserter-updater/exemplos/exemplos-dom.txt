@@ -1,0 +1,322 @@
+[{
+    "documento": {
+        "tipo_documento": "Edital"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": null,
+        "numero_edital": "100/2025",
+        "data_limite": null,
+        "descricao_objeto": "contratacao de empresa especializada na gestao de manejo de residuos solidos compreendendo as atividades de coleta, transporte e transbordo, gerados pelos municipios consorciados e conveniados do consorcio intermunicipal do medio vale do itajai (cimvi) - (rua tupiniquim, no 1.070, em timbo/sc), de acordo com as especificacoes tecnicas constantes deste edital e seus anexos",
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": null
+    },
+    "unidade_gestora": {
+        "nome_ug": "CIMVI - Consórcio Intermunicipal do Médio Vale do Itajaí"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Pregão Eletrônico"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": 7565071,
+        "titulo_dom": "LICITAÇÃO Nº 100/2025 - DECISÃO DILIGÊNCIAS",
+        "data_publicacao_dom": "2025-09-09 14:07:19",
+        "codigo_sfinge": null,
+        "url_pdf_dom": "https://www.diariomunicipal.sc.gov.br/arquivosbd/atos/2025/09/1757108100_30__deciso_diligncias_justificativa__e_readequao_de__planilha_de__custos__05092025_extrato.pdf",
+        "url_dom": "https://www.diariomunicipal.sc.gov.br/?q=id:7565071"
+    },
+    "raw_data_id": "68cd8a49754acb4a28b29d72",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Aviso de Licitação"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "29/2025",
+        "numero_edital": "16/2025",
+        "data_limite": null,
+        "descricao_objeto": "do processo: participacao dos servidores marizete savaris utzig, rubiane inete seidel, jean carlos ribeiro e william jose hass zanoni no seminario estadual de servidores de camaras municipais, promovido pela uvesc, no periodo de 17 a 19/09/2025, em florianopolis/sc",
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Maravilha"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Câmara de Vereadores de Maravilha"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Inexigibilidade de Licitação"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": 7571015,
+        "titulo_dom": "AVISO DE INEXIGIBILIDADE Nº 16/2025",
+        "data_publicacao_dom": "2025-09-09 12:16:51",
+        "codigo_sfinge": null,
+        "url_pdf_dom": "https://www.diariomunicipal.sc.gov.br/arquivosbd/atos/2025/09/1757430845_aviso_de_licitao_extrato.pdf",
+        "url_dom": "https://www.diariomunicipal.sc.gov.br/?q=id:7571015"
+    },
+    "raw_data_id": "68cd8a61754acb4a28b29d75",
+    "data_source": "DOM"
+},
+
+{
+    "documento": {
+        "tipo_documento": "Retificação de Aviso de Licitação"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "102/2025",
+        "numero_edital": "028/2025",
+        "data_limite": null,
+        "descricao_objeto": "unid valor mensal 1 contratacao de empresa especializada para a prestacao de servicos de assessoria e consultoria em gestao publica, com o objetivo de fornecer suporte tecnico, administrativo e estrategico as unidades da administracao publica municipal, abrangendo areas como licitacoes e contratos, gestao de pessoal, contabilidade, planejamento orcamentario e arrecadacao tributaria",
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Pinhalzinho"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Pinhalzinho"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Concurso"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": 7571017,
+        "titulo_dom": "AVISO - IL 028/2025 - PMP - RETIFICADO",
+        "data_publicacao_dom": "2025-09-09 12:15:33",
+        "codigo_sfinge": null,
+        "url_pdf_dom": "https://www.diariomunicipal.sc.gov.br/arquivosbd/atos/2025/09/1757430926_pl_1022025__il_0282025__assessoria_em_gesto_pblica__retificado_extrato.pdf",
+        "url_dom": "https://www.diariomunicipal.sc.gov.br/?q=id:7571017"
+    },
+    "raw_data_id": "68cd8a61754acb4a28b29d76",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Termo de Homologação e Adjudicação"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "29/2025",
+        "numero_edital": "29/2025",
+        "data_limite": null,
+        "descricao_objeto": "da licitacao: a) nr",
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Maravilha"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Câmara de Vereadores de Maravilha"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Inexigibilidade de Licitação"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": 7571018,
+        "titulo_dom": "HOMOLOGAÇÃO E ADJUDICAÇÃO PROCESSO LICITATÓRIO Nº 29/2025 - INEXIGIBILIDADE Nº 16/2025",
+        "data_publicacao_dom": "2025-09-09 12:16:47",
+        "codigo_sfinge": "DEFC101C8D40826A31DD5067149BE39411656E0B",
+        "url_pdf_dom": "https://www.diariomunicipal.sc.gov.br/arquivosbd/atos/2025/09/1757430994_termo_de_homologao_e_adjudicao_unificado_extrato.pdf",
+        "url_dom": "https://www.diariomunicipal.sc.gov.br/?q=id:7571018"
+    },
+    "raw_data_id": "68cd8a61754acb4a28b29d77",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Edital"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "25749/2025",
+        "numero_edital": "099/2025",
+        "data_limite": null,
+        "descricao_objeto": 1,
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "São Francisco do Sul"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de São Francisco do Sul"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Concorrência"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": 7571034,
+        "titulo_dom": "EDITAL_CE_099_2025_ELETRICA_WALDEMAR_DA_COSTA",
+        "data_publicacao_dom": "2025-09-09 12:31:18",
+        "codigo_sfinge": null,
+        "url_pdf_dom": "https://www.diariomunicipal.sc.gov.br/arquivosbd/atos/2025/09/1757431864_edital_ce_099_2025_eletrica_waldemar_da_costa_extrato.pdf",
+        "url_dom": "https://www.diariomunicipal.sc.gov.br/?q=id:7571034"
+    },
+    "raw_data_id": "68cd8a61754acb4a28b29d78",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Dispensa de Licitação"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "105/2025",
+        "numero_edital": "52/2025",
+        "data_limite": null,
+        "descricao_objeto": null,
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Aurora"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Aurora"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Dispensa de Licitação"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": 7571040,
+        "titulo_dom": "DISPENSA DE LICITACAO PROCESSO 105/2025",
+        "data_publicacao_dom": "2025-09-09 12:33:01",
+        "codigo_sfinge": null,
+        "url_pdf_dom": "https://www.diariomunicipal.sc.gov.br/arquivosbd/atos/2025/09/1757431970_edital_dispensa_uniforme_ass_extrato.pdf",
+        "url_dom": "https://www.diariomunicipal.sc.gov.br/?q=id:7571040"
+    },
+    "raw_data_id": "68cd8a61754acb4a28b29d79",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Termo de Homologação"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "105/2025",
+        "numero_edital": "52/2025",
+        "data_limite": null,
+        "descricao_objeto": "da dispensa presencial no",
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Aurora"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Aurora"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Dispensa de Licitação"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": 7571047,
+        "titulo_dom": "TERMO DE HOMOLOGACAO DISPENSA DE LICITACAO PROCESSO 105/2025",
+        "data_publicacao_dom": "2025-09-09 12:37:31",
+        "codigo_sfinge": null,
+        "url_pdf_dom": "https://www.diariomunicipal.sc.gov.br/arquivosbd/atos/2025/09/1757432243_termo_de_homologacao_extrato.pdf",
+        "url_dom": "https://www.diariomunicipal.sc.gov.br/?q=id:7571047"
+    },
+    "raw_data_id": "68cd8a61754acb4a28b29d7a",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Aviso de Licitação"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "49/2025",
+        "numero_edital": null,
+        "data_limite": "24/09/2025",
+        "descricao_objeto": "contratacao de empresa especializada na execucao de servicos de terraplanagem, drenagem, reforco de subleito e base em trechos da rodovia municipal erm 150 (extensao de 1.433,00 metros) e erm 155 (extensao de 240,00 metros), ambas situadas na localidade de turvo baixo, no municipio de ermo/sc",
+        "data_abertura_certame": "24/09/2025"
+    },
+    "ente": {
+        "ente": "Ermo"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Ermo"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Concorrência"
+    },
+    "dynamic": {
+        "data_inicio_propostas": "10/09/2025",
+        "codigo_dom": 7571048,
+        "titulo_dom": "PROCESSO LICITATÓRIO Nº 49/2025 MODALIDADE: CONCORRÊNCIA ELETRÔNICA – TIPO: MENOR PREÇO GLOBAL",
+        "data_publicacao_dom": "2025-09-09 12:41:40",
+        "codigo_sfinge": "847B83051CD0FEDEC9CBD6B53FB24A86B45257CC",
+        "url_pdf_dom": "https://www.diariomunicipal.sc.gov.br/arquivosbd/atos/2025/09/1757432491_aviso_de_licitao_extrato.pdf",
+        "url_dom": "https://www.diariomunicipal.sc.gov.br/?q=id:7571048"
+    },
+    "raw_data_id": "68cd8a61754acb4a28b29d7b",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Aviso de Licitação"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "49/2025",
+        "numero_edital": null,
+        "data_limite": "24/09/2025",
+        "descricao_objeto": "contratacao de empresa especializada na execucao de servicos de terraplanagem, drenagem, reforco de subleito e base em trechos da rodovia municipal erm 150 (extensao de 1.433,00 metros) e erm 155 (extensao de 240,00 metros), ambas situadas na localidade de turvo baixo, no municipio de ermo/sc",
+        "data_abertura_certame": "24/09/2025"
+    },
+    "ente": {
+        "ente": "Ermo"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Ermo"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Concorrência"
+    },
+    "dynamic": {
+        "data_inicio_propostas": "10/09/2025",
+        "codigo_dom": 7571048,
+        "titulo_dom": "PROCESSO LICITATÓRIO Nº 49/2025 MODALIDADE: CONCORRÊNCIA ELETRÔNICA – TIPO: MENOR PREÇO GLOBAL",
+        "data_publicacao_dom": "2025-09-09 12:41:40",
+        "codigo_sfinge": "847B83051CD0FEDEC9CBD6B53FB24A86B45257CC",
+        "url_pdf_dom": "https://www.diariomunicipal.sc.gov.br/arquivosbd/atos/2025/09/1757432491_aviso_de_licitao_extrato.pdf",
+        "url_dom": "https://www.diariomunicipal.sc.gov.br/?q=id:7571048"
+    },
+    "raw_data_id": "68cd8a61754acb4a28b29d7b",
+    "data_source": "DOM"
+},
+{
+    "documento": {
+        "tipo_documento": "Ata de Sessão Pública"
+    },
+    "processo_licitatorio": {
+        "numero_processo_licitatorio": "42/2025",
+        "numero_edital": "42/2025",
+        "data_limite": null,
+        "descricao_objeto": null,
+        "data_abertura_certame": null
+    },
+    "ente": {
+        "ente": "Ermo"
+    },
+    "unidade_gestora": {
+        "nome_ug": "Prefeitura municipal de Ermo"
+    },
+    "modalidade_licitacao": {
+        "descricao": "Concorrência"
+    },
+    "dynamic": {
+        "data_inicio_propostas": null,
+        "codigo_dom": 7571051,
+        "titulo_dom": "EXTRATO DE ANULAÇÃO DE LICITAÇÃO CONCORRÊNCIA Nº 42/2025",
+        "data_publicacao_dom": "2025-09-09 12:46:31",
+        "codigo_sfinge": null,
+        "url_pdf_dom": "https://www.diariomunicipal.sc.gov.br/arquivosbd/atos/2025/09/1757432782_aviso_de_anulao_extrato.pdf",
+        "url_dom": "https://www.diariomunicipal.sc.gov.br/?q=id:7571051"
+    },
+    "raw_data_id": "68cd8a61754acb4a28b29d7d",
+    "data_source": "DOM"
+}
+]

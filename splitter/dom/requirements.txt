@@ -1,0 +1,5 @@
+pika
+minio
+requests
+sentry_sdk==0.10.2
+pymongo

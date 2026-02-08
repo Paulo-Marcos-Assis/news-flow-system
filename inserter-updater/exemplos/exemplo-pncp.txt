@@ -1,0 +1,291 @@
+[{
+    "unidade_gestora": {
+        "nome_ug": "Município de Pinheiro Preto",
+        "cnpj": "82827148000169",
+        "cod_ug": 2
+    },
+    "municipio": {
+        "nome_municipio": "Pinheiro Preto",
+        "nome_uf": "Santa Catarina",
+        "sigla_uf": "SC"
+    },
+    "ente": {
+        "ente": "MUNICIPIO DE PINHEIRO PRETO"
+    },
+    "processo_licitatorio": {
+        "numero_edital": "01LE2025/2025",
+        "data_abertura_certame": "2025-09-24T10:00:01",
+        "data_limite": "2025-10-17T10:00:01",
+        "situacao": "Divulgada no PNCP",
+        "valor_total_previsto": 277600.0,
+        "descricao_objeto": "ALIENAÇÃO DE BENS MÓVEIS INSERVÍVEIS DO MUNICÍPIO DE PINHEIRO PRETO, DE ACORDO COM A LEI MUNICIPAL N. 2.406/2025. "
+    },
+    "tipo_licitacao": {
+        "modalidade": 1,
+        "descricao_modalidade": "Leilão: modalidade de licitação para alienação de bens imóveis ou de bens móveis inservíveis ou legalmente apreendidos a quem oferecer o maior lance"
+    },
+    "raw_data_id": "68d2f291c178a632206fb10d",
+    "data_source": "PNCP"
+},
+{
+    "unidade_gestora": {
+        "nome_ug": "PREFEITURA MUNICIPAL DE TUNÁPOLIS",
+        "cnpj": "78486198000152",
+        "cod_ug": 1
+    },
+    "municipio": {
+        "nome_municipio": "Tunápolis",
+        "nome_uf": "Santa Catarina",
+        "sigla_uf": "SC"
+    },
+    "ente": {
+        "ente": "MUNICIPIO DE TUNAPOLIS"
+    },
+    "processo_licitatorio": {
+        "numero_edital": "12/2025",
+        "data_abertura_certame": "2025-09-23T14:00:00",
+        "data_limite": "2025-10-09T09:00:00",
+        "situacao": "Divulgada no PNCP",
+        "valor_total_previsto": 513358.35,
+        "descricao_objeto": "[Portal de Compras Públicas] - CONTRATAÇÃO DE EMPRESA PARA EXECUÇÃO DE OBRA COM FORNECIMENTO DE MATERIAIS E PRESTAÇÃO DE SERVIÇOS PARA EDIFICAÇÃO PARCIAL DA PRAÇA NA LINHA PITANGUEIRA, INTERIOR, TUNÁPOLIS/SC, COM RECURSOS DO GOVERNO DO ESTADO DE SANTA CATARINA - PORTARIA CONJUNTA SGG/SEF Nº 011/2023 - FESPORTE E PRÓPRIOS CONFORME PROJETOS DE ENGENHARIA, PLANILHAS E MEMORIAIS"
+    },
+    "tipo_licitacao": {
+        "modalidade": 4,
+        "descricao_modalidade": "concorrência: modalidade de licitação para contratação de bens e serviços especiais e de obras e serviços comuns e especiais de engenharia"
+    },
+    "raw_data_id": "68d2f291c178a632206fb110",
+    "data_source": "PNCP"
+},
+{
+    "unidade_gestora": {
+        "nome_ug": "PREFEITURA MUNICIPAL DE IÇARA - SC",
+        "cnpj": "82916800000111",
+        "cod_ug": 1
+    },
+    "municipio": {
+        "nome_municipio": "Içara",
+        "nome_uf": "Santa Catarina",
+        "sigla_uf": "SC"
+    },
+    "ente": {
+        "ente": "MUNICIPIO DE ICARA"
+    },
+    "processo_licitatorio": {
+        "numero_edital": "CE 116/2025",
+        "data_abertura_certame": "2025-09-24T08:00:00",
+        "data_limite": "2025-10-08T09:45:00",
+        "situacao": "Divulgada no PNCP",
+        "valor_total_previsto": 1363217.6,
+        "descricao_objeto": "CONTRATAÇÃO DE EMPRESA ESPECIALIZADA PARA EXECUÇÃO PAVIMENTAÇÃO ASFÁLTICA DA RUA JOSE PEDRO LINO – BAIRRO AURORA, COM EXTENSÃO TOTAL DE 665,27 M."
+    },
+    "tipo_licitacao": {
+        "modalidade": 4,
+        "descricao_modalidade": "concorrência: modalidade de licitação para contratação de bens e serviços especiais e de obras e serviços comuns e especiais de engenharia"
+    },
+    "raw_data_id": "68d2f291c178a632206fb111",
+    "data_source": "PNCP"
+},
+{
+    "unidade_gestora": {
+        "nome_ug": "Unidade Única",
+        "cnpj": "83009928000164",
+        "cod_ug": 2491
+    },
+    "municipio": {
+        "nome_municipio": "Vargeão",
+        "nome_uf": "Santa Catarina",
+        "sigla_uf": "SC"
+    },
+    "ente": {
+        "ente": "MUNICIPIO DE VARGEAO"
+    },
+    "processo_licitatorio": {
+        "numero_edital": "3/2025",
+        "data_abertura_certame": "2025-09-24T15:00:00",
+        "data_limite": "2025-10-10T09:00:00",
+        "situacao": "Divulgada no PNCP",
+        "valor_total_previsto": 45971.85,
+        "descricao_objeto": "contratação de empresa especializada na elaboração de projeto executivo completo de estruturas de concreto armado com fundações profundas e estruturas metálicas em alumínio, que integrarão a ampliação e reforma da Escola Municipal Fortunato Danielli, situada no Município de Vargeão/SC. O projeto deverá atender às normas técnicas da ABNT e demais legislações aplicáveis, incluindo as especificações do Termo de Referência, Estudo Técnico Preliminar e Projeto Básico fornecido pelo município, para posterior compatibilização com os demais projetos. O projeto executivo a ser desenvolvido deverá ser entregue juntamente com o cronograma de execução para a obra, planilhas de quantitativos, orçamento e emissão de ART/RRT. Para nortear os projetos que deverão ser desenvolvidos, seguirá em anexo à documentação para esta contratação"
+    },
+    "tipo_licitacao": {
+        "modalidade": 4,
+        "descricao_modalidade": "concorrência: modalidade de licitação para contratação de bens e serviços especiais e de obras e serviços comuns e especiais de engenharia"
+    },
+    "raw_data_id": "68d2f291c178a632206fb112",
+    "data_source": "PNCP"
+},
+{
+    "unidade_gestora": {
+        "nome_ug": "Educação Infantil - Creches",
+        "cnpj": "83102475000116",
+        "cod_ug": 6006
+    },
+    "municipio": {
+        "nome_municipio": "Guaramirim",
+        "nome_uf": "Santa Catarina",
+        "sigla_uf": "SC"
+    },
+    "ente": {
+        "ente": "MUNICIPIO DE GUARAMIRIM"
+    },
+    "processo_licitatorio": {
+        "numero_edital": "CCE 128/2025",
+        "data_abertura_certame": "2025-09-23T08:00:00",
+        "data_limite": "2025-10-08T08:59:59",
+        "situacao": "Divulgada no PNCP",
+        "valor_total_previsto": 308699.04,
+        "descricao_objeto": "CONTRATAÇÃO DE EMPRESA PARA PRESTAÇÃO DE SERVIÇOS DE ENGENHARIA COM FORNECIMENTO DE MATERIAL E MÃO DE OBRA PARA REFORMA DA CEI MARIA DOMÊNICA NO MUNICÍPIO DE GUARAMIRIM/SC"
+    },
+    "tipo_licitacao": {
+        "modalidade": 4,
+        "descricao_modalidade": "concorrência: modalidade de licitação para contratação de bens e serviços especiais e de obras e serviços comuns e especiais de engenharia"
+    },
+    "raw_data_id": "68d2f291c178a632206fb113",
+    "data_source": "PNCP"
+},
+{
+    "unidade_gestora": {
+        "nome_ug": "DIVISAO DE ESTRADAS E RODAGEM",
+        "cnpj": "83102467000170",
+        "cod_ug": 7001
+    },
+    "municipio": {
+        "nome_municipio": "Corupá",
+        "nome_uf": "Santa Catarina",
+        "sigla_uf": "SC"
+    },
+    "ente": {
+        "ente": "MUNICIPIO DE CORUPA"
+    },
+    "processo_licitatorio": {
+        "numero_edital": "CCE 12/2025",
+        "data_abertura_certame": "2025-09-23T15:00:00",
+        "data_limite": "2025-10-10T08:00:00",
+        "situacao": "Divulgada no PNCP",
+        "valor_total_previsto": 1402940.35,
+        "descricao_objeto": "Contratação de empresa especializada em obras e serviços de engenharia para executar por empreitada global a  PAVIMENTAÇÃO, SERVIÇOS COMPLEMENTARES E SINALIZAÇÃO VIÁRIA DA RUA FRANCISCO MEES - TRECHO III- PERTENCENTE AO MUNICÍPIO DE CORUPÁ/SC, com fornecimento de materiais, mão de obra e equipamentos, conforme memorial descritivo, planilha orçamentária, projetos e demais anexos que fazem parte integrante deste processo,  APOIO FINANCEIRO  PROVENIENTE DO GOVERNO  FEDERAL - TRANSFERÊNCIA ESPECIAL DA UNIÃO - EMENDA PARLAMENTAR : 202339290002  CARLOS CHIODINI, GOVERNO DO ESTADO DE SANTA CATARINA - EMENDAS PARLAMENTARES IMPOSITIVAS 1717/2024 E 962/2025 DEPUTADO ANTÍDIO ALEIXO LUNELLI E CONTRAPARTIDA MUNICIPAL."
+    },
+    "tipo_licitacao": {
+        "modalidade": 4,
+        "descricao_modalidade": "concorrência: modalidade de licitação para contratação de bens e serviços especiais e de obras e serviços comuns e especiais de engenharia"
+    },
+    "raw_data_id": "68d2f291c178a632206fb115",
+    "data_source": "PNCP"
+},
+{
+    "unidade_gestora": {
+        "nome_ug": "Fundação Hospitalar Dr.José Athanázio",
+        "cnpj": "83156455000128",
+        "cod_ug": 1
+    },
+    "municipio": {
+        "nome_municipio": "Campos Novos",
+        "nome_uf": "Santa Catarina",
+        "sigla_uf": "SC"
+    },
+    "ente": {
+        "ente": "FUNDACAO HOSPITALAR DR JOSE ATHANAZIO"
+    },
+    "processo_licitatorio": {
+        "numero_edital": "2/2025",
+        "data_abertura_certame": "2025-09-23T23:59:00",
+        "data_limite": "2025-10-07T08:30:00",
+        "situacao": "Divulgada no PNCP",
+        "valor_total_previsto": 341451.68,
+        "descricao_objeto": "[Portal de Compras Públicas] - CONTRATAÇÃO DE EMPRESA ESPECIALIZADA PARA EXECUÇÃO DE ADEQUAÇÃO DA INFRAESTRUTURA ELÉTRICA E SUBSTITUIÇÃO DO PADRÃO ELÉTRICO DE ENTRADA ATUAL - SUBESTAÇÃO 300 KVA DA FUNDAÇÃO HOSPITALAR DR. JOSÉ ATHANÁZIO, COM FORNECIMENTO DE MÃO DE OBRA E MATERIAIS, CONFORME PROJETO BÁSICO"
+    },
+    "tipo_licitacao": {
+        "modalidade": 4,
+        "descricao_modalidade": "concorrência: modalidade de licitação para contratação de bens e serviços especiais e de obras e serviços comuns e especiais de engenharia"
+    },
+    "raw_data_id": "68d2f291c178a632206fb116",
+    "data_source": "PNCP"
+},
+{
+    "unidade_gestora": {
+        "nome_ug": "Município de Schroeder",
+        "cnpj": "83102491000109",
+        "cod_ug": 1
+    },
+    "municipio": {
+        "nome_municipio": "Schroeder",
+        "nome_uf": "Santa Catarina",
+        "sigla_uf": "SC"
+    },
+    "ente": {
+        "ente": "MUNICIPIO DE SCHROEDER"
+    },
+    "processo_licitatorio": {
+        "numero_edital": "37/2025",
+        "data_abertura_certame": "2025-09-24T08:00:00",
+        "data_limite": "2025-10-10T08:59:00",
+        "situacao": "Divulgada no PNCP",
+        "valor_total_previsto": 130399.23,
+        "descricao_objeto": "[Portal de Compras Públicas] - O objeto da presente licitação é a contratação de empresa especializada para execução (com fornecimento de mão de obra, materiais e equipamentos necessários), de melhorias da Escola Municipal Rui Barbosa, localizado na Rua 23 de Março, nº3028, Bairro Itoupava-Açú, no Município de Schroeder/SC, de acordo com projetos, memorial descritivo, planilha de quantitativos e demais anexos pertinentes. Recurso proveniente da Emenda Impositiva 3222/2025 - Melhorias da Escola Rui Barbosa, incluindo o parque infantil"
+    },
+    "tipo_licitacao": {
+        "modalidade": 4,
+        "descricao_modalidade": "concorrência: modalidade de licitação para contratação de bens e serviços especiais e de obras e serviços comuns e especiais de engenharia"
+    },
+    "raw_data_id": "68d2f291c178a632206fb118",
+    "data_source": "PNCP"
+},
+{
+    "unidade_gestora": {
+        "nome_ug": "Município de Novo Horizonte",
+        "cnpj": "95990115000187",
+        "cod_ug": 0
+    },
+    "municipio": {
+        "nome_municipio": "Novo Horizonte",
+        "nome_uf": "Santa Catarina",
+        "sigla_uf": "SC"
+    },
+    "ente": {
+        "ente": "MUNICIPIO DE NOVO HORIZONTE"
+    },
+    "processo_licitatorio": {
+        "numero_edital": "PL PM Nº 029 - CC Nº 003/2025",
+        "data_abertura_certame": "2025-09-24T08:00:00",
+        "data_limite": "2025-10-15T07:59:00",
+        "situacao": "Divulgada no PNCP",
+        "valor_total_previsto": 341408.4,
+        "descricao_objeto": "[Portal de Compras Públicas] - CONTRATAÇÃO DE EMPRESA ESPECIALIZADA, PARA EXECUÇÃO DE REFORMA DO CENTRO DE MULTIPLO USO DO MUNICÍPIO DE NOVO HORIZONTE/SC., COM RECURSOS ORIUNDOS DA TRANSFERÊNCIA SCC 5715/2025."
+    },
+    "tipo_licitacao": {
+        "modalidade": 4,
+        "descricao_modalidade": "concorrência: modalidade de licitação para contratação de bens e serviços especiais e de obras e serviços comuns e especiais de engenharia"
+    },
+    "raw_data_id": "68d2f291c178a632206fb119",
+    "data_source": "PNCP"
+},
+{
+    "unidade_gestora": {
+        "nome_ug": "DIRETORIA GABINETE FAZENDA",
+        "cnpj": "83102806000118",
+        "cod_ug": 3001
+    },
+    "municipio": {
+        "nome_municipio": "Rio dos Cedros",
+        "nome_uf": "Santa Catarina",
+        "sigla_uf": "SC"
+    },
+    "ente": {
+        "ente": "MUNICIPIO DE RIO DOS CEDROS"
+    },
+    "processo_licitatorio": {
+        "numero_edital": "CCE 112/2025",
+        "data_abertura_certame": "2025-09-24T09:00:00",
+        "data_limite": "2025-10-09T09:00:00",
+        "situacao": "Divulgada no PNCP",
+        "valor_total_previsto": 202500.0,
+        "descricao_objeto": "AQUISIÇÃO DE 01 (UM) TERRENO URBANO LOCALIZADO NO BAIRRO SANTO ANTÔNIO, NESTE MUNICÍPIO DE RIO DOS CEDROS, DEVIDAMENTE REGISTRADO NO 1º OFÍCIO DO REGISTRO DE IMÓVEIS DA COMARCA DE TIMBÓ/SC, VISANDO A CONSTRUÇÃO DE UNIDADES HABITACIONAIS NO ÂMBITO DO PROGRAMA MINHA CASA, MINHA VIDA, SEGUINDO OS REQUISITOS PREVISTOS NO TERMO DE REFERÊNCIA E DEMAIS DOCUMENTOS ANEXOS."
+    },
+    "tipo_licitacao": {
+        "modalidade": 4,
+        "descricao_modalidade": "concorrência: modalidade de licitação para contratação de bens e serviços especiais e de obras e serviços comuns e especiais de engenharia"
+    },
+    "raw_data_id": "68d2f291c178a632206fb11a",
+    "data_source": "PNCP"
+}
+]

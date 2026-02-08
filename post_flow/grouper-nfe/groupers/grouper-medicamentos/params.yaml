@@ -1,0 +1,5 @@
+sample_size: 1000
+temperature: 0
+model: "qwen2.5:7b"
+score_threshold: 1.0
+description_column_ner: "nfe_description"

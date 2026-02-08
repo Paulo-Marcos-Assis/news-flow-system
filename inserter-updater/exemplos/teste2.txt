@@ -1,0 +1,391 @@
+import os
+import json
+from datetime import datetime
+import psycopg2
+from psycopg2 import sql
+from psycopg2.extras import RealDictCursor
+
+# Assumindo que o logger é importado assim, como nos outros serviços
+from service_essentials.utils.logger import Logger
+from service_essentials.orientdb_manager.orient_ceos_client import CeosOrientDBClient
+from dotenv import load_dotenv
+
+# Instancia o logger para ser usado no módulo
+logger = Logger()
+
+
+class InserterUpdater():
+
+    def __init__(self):
+        super().__init__()
+        self.fk_map = self.load_json("./inserter-updater/db_identifiers/fks.json")
+        self.table_insert_order = self.load_json("./inserter-updater/db_identifiers/insert_order.json")
+        self.table_identifiers = self.load_json("./inserter-updater/db_identifiers/identifiers.json")
+        load_dotenv("/home/msteffen/Documents/fluxo/main-server/variaveis.env")
+        self.DB_CONFIG = {
+            "dbname": os.getenv("DATABASE_PG"),
+            "user": os.getenv("USERNAME_PG"),
+            "password": os.getenv("SENHA_PG"),
+            "host": os.getenv("HOST_PG"),
+            "port": os.getenv("PORT_PG")
+        }
+        self.orient_client = CeosOrientDBClient(
+            host=os.getenv("HOST_ORIENT"),
+            port=os.getenv("PORT_ORIENT"),
+            username=os.getenv("USERNAME_ORIENT"),
+            password=os.getenv("SENHA_ORIENT"),
+            graph_name=os.getenv("DATABASE_ORIENT")
+        )
+        
+        # --- OTIMIZAÇÃO: Conectar ao banco de dados na inicialização ---
+        self.pg_connection = None
+        self.connect_to_postgres()
+        # -----------------------------------------------------------
+
+    def connect_to_postgres(self):
+        """Método para criar e armazenar a conexão com o PostgreSQL."""
+        try:
+            print("Conectando ao banco de dados PostgreSQL...")
+            self.pg_connection = psycopg2.connect(**self.DB_CONFIG)
+            print("Conexão com o PostgreSQL estabelecida com sucesso.")
+        except psycopg2.Error as e:
+            logger.error(f"Falha ao conectar com o PostgreSQL na inicialização: {e}")
+            self.pg_connection = None
+
+    def shutdown(self):
+        """Método para fechar recursos (conexões) de forma limpa."""
+        print("Iniciando o desligamento do InserterUpdater...")
+        if self.pg_connection and not self.pg_connection.closed:
+            self.pg_connection.close()
+            print("Conexão com o PostgreSQL fechada.")
+        # Se sua classe base tiver um método de shutdown, chame-o também
+        # super().shutdown()
+
+    def load_json(self, filepath):
+        with open(filepath, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    def get_primary_key(self, table, fk_map):
+        for t, fks in fk_map.items():
+            for _, (ref_table, ref_pk) in fks.items():
+                if ref_table == table:
+                    return ref_pk
+        return f"id_{table}"
+    
+    def converter_datas(self, obj):
+        if isinstance(obj, dict):
+            return {k: self.converter_datas(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [self.converter_datas(v) for v in obj]
+        elif isinstance(obj, str):
+            for fmt in ("%Y-%m-%dT%H:%M:%S", "%d/%m/%Y", "%d-%m-%Y"):
+                try:
+                    dt = datetime.strptime(obj, fmt)
+                    return dt.strftime("%Y-%m-%d")
+                except ValueError:
+                    continue
+            return obj  # Retorna original se nenhum formato bater
+        else:
+            return obj
+
+        
+    def get_postgres_columns(self, columns, table, cursor, schema='public'):
+        cursor.execute(
+            "SELECT * FROM schema_dinamico(%s, %s)",
+            (table, schema)
+        )
+        try:
+            rows = cursor.fetchall()
+            result = [dict(row) for row in rows]
+        except Exception as e:
+            print(e)
+            return []
+
+        columns_list = [col['column_name'] for col in result]
+        postgres_columns = [col for col in columns if col in columns_list]
+        return postgres_columns
+
+    def registro_existe(self, cursor, tabela: str, dados: dict, identificadores:dict, id_postgres=None):
+        if id_postgres:
+            pk_column = f"id_{tabela}"
+            query = sql.SQL("SELECT {} FROM {} WHERE {} LIMIT 1").format(
+                sql.Identifier(pk_column),
+                sql.Identifier(tabela),
+                sql.SQL("{} = {}").format(sql.Identifier(pk_column), sql.Literal(id_postgres))
+            )
+            cursor.execute(query)
+            row = cursor.fetchone()
+            return row[pk_column] if row else None
+
+        chaves = identificadores.get(tabela, [])
+        if not chaves:
+            return None
+
+        filtros = []
+        valores = []
+        for chave in chaves:
+            valor = dados.get(chave)
+            if valor is None:
+                return None
+            filtros.append(sql.SQL("{} = %s").format(sql.Identifier(chave)))
+            valores.append(valor)
+
+        pk_column = self.get_primary_key(tabela, self.fk_map)
+        query = sql.SQL("SELECT {} FROM {} WHERE {} LIMIT 1").format(
+            sql.Identifier(pk_column),
+            sql.Identifier(tabela),
+            sql.SQL(" AND ").join(filtros),
+        )
+
+        cursor.execute(query, valores)
+        row = cursor.fetchone()
+        return row[pk_column] if row else None
+
+    
+    def define_graph_edges(self, ids):
+        tables = ids.keys()
+        print(f"[OrientDB] Iniciando definição de relacionamentos para tabelas: {list(tables)}")
+        for table_name, table_id in ids.items():
+            if not table_id: continue
+            for t, fks in self.fk_map.items():
+                if t == table_name:
+                    for _, (ref_table, ref_pk) in fks.items():
+                        if ref_table in tables:
+                            result = self.orient_client.add_relationship_edge(
+                                from_id_obj=ids[table_name], 
+                                from_vertex_class=table_name, 
+                                to_id_obj=ids[ref_table], 
+                                to_vertex_class=ref_table
+                                )
+                            if result:
+                                print(f"[OrientDB] Adição de relacionamento {table_name}: {ids[table_name]} --related_to--> {ref_table}: {ids[ref_table]}")
+                            else:
+                                print(f"[OrientDB] Relacionamento existe {table_name}: {ids[table_name]} --related_to--> {ref_table}: {ids[ref_table]}")
+        print("[OrientDB] Sucesso")
+
+    def insert_table(
+        self, cursor, table, values, pk_column, identificadores, raw_data_id, data_font
+    ):
+        """Insere se não existir, senão retorna o ID existente"""
+
+        print(f"\nInserção da tabela: {table} ")
+        print("Valores:")
+        print(f"{values}")
+        
+        # Retirar trecho após mudança no json do DOM
+        if table == "dynamic":
+            table = "processo_licitatorio"
+            existing_id = self.registro_existe(cursor, table, values, identificadores, id_postgres=values["id_processo_licitatorio"])
+        else:
+            existing_id = self.registro_existe(cursor, table, values, identificadores)
+
+        if existing_id:
+            print(f"[OK] Registro já existente na tabela '{table}' com ID: {existing_id}")
+            if self.orient_client:
+                self.orient_client.send_to_dynamic_database(
+                    existing_id, 
+                    raw_data_id, 
+                    table, 
+                    values, 
+                    data_font)
+                print(f"Enviado para o Orient (existente) -> id={existing_id}, raw={raw_data_id}, table={table}")
+            return existing_id
+
+        print("\n----> Checagem dos campos")
+        print(f"--> Campos passados: {list(values.keys())}")
+        columns = self.get_postgres_columns(values.keys(), table, cursor) 
+        postgres_columns = ", ".join(columns) # Retorna as colunas no postgres
+        print(f"--> Campos a serem adicionados no postgres: {postgres_columns}")
+        values_postgres = []
+        for key, value in values.items():
+            if key in columns:
+                values_postgres.append(value)
+        placeholders = ", ".join(["%s"] * len(values_postgres))
+        sql = f"INSERT INTO {table} ({postgres_columns}) VALUES ({placeholders}) RETURNING {pk_column}"
+        print("\n[POSTGRES] Comando SQL: ")
+        print(f"{sql}{list(values_postgres)}")
+        cursor.execute(sql, values_postgres)
+        new_id = cursor.fetchone()[pk_column]
+        if self.orient_client:
+            result = self.orient_client.send_to_dynamic_database(
+                new_id, raw_data_id, table, values, data_font
+            )
+            if result:
+                print(f"\n[OrientDB] Enviado para o Orient (novo) -> id={new_id}, raw={raw_data_id}, table={table}")
+                print(
+                    f"Enviado para o Orient (novo) -> id={new_id}, raw={raw_data_id}, table={table}"
+                )
+        return new_id
+
+    def insert_data(self, data, fk_map, table_insert_order, identificadores):
+        inserted_ids = {t: [] for t in table_insert_order}
+        raw_data_id = data.get("raw_data_id")
+        data_font = data.get("data_font")
+
+        if not self.pg_connection or self.pg_connection.closed:
+            logger.warning("Conexão com o PostgreSQL perdida. Tentando reconectar...")
+            self.connect_to_postgres()
+            if not self.pg_connection:
+                logger.error("Não foi possível reconectar ao PostgreSQL. Abortando.")
+                return {}
+
+        with self.pg_connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            for table in table_insert_order:
+                if table not in data:
+                    continue
+                
+                table_data = data[table]
+                
+                # Garante que table_data é uma lista de registros (para iteração)
+                if not isinstance(table_data, list):
+                    table_data = [table_data]
+
+                # Itera sobre os registros da tabela PARENTE (seja lista ou único objeto)
+                for values in table_data:
+                    values = values.copy()
+                    
+                    if all(v is None for v in values.values()):
+                        continue 
+                        
+                    # 1. TRATAMENTO DE ANINHAMENTO (EXTRAÇÃO DE FILHOS)
+                    nested_children = {}
+                    
+                    # Usa list(values.items()) para modificar o dicionário durante a iteração
+                    for key, value in list(values.items()):
+                        # Verifica se a chave corresponde a um nome de tabela conhecido E se é um dict/list
+                        if key in table_insert_order and (isinstance(value, dict) or isinstance(value, list)):
+                            nested_children[key] = values.pop(key)
+                            print(f"    - Encontrado filho aninhado '{key}', removido para inserção separada.")
+                    
+                    # 2. TRATAMENTO DE CHAVES ESTRANGEIRAS SEQUENCIAIS (FLUXO ORIGINAL: 1:1, 1:N)
+                    # Ex: unidade_gestora <- licitacao. O ID da licitacao precisa estar inserido.
+                    for fk_col, (ref_table, ref_pk) in fk_map.get(table, {}).items():
+                        # A condição abaixo lida com a inserção sequencial (lista plana de pais -> filhos)
+                        # Ex: nfe -> item_nfe (onde cada item_nfe usa o ID do único nfe inserido)
+                        if ref_table in inserted_ids and inserted_ids[ref_table]:
+                            # Pega o último ID inserido da tabela referenciada (Pai)
+                            values[fk_col] = inserted_ids[ref_table][-1]
+                            print(f"    - FK sequencial '{fk_col}' atribuída de '{ref_table}': {values[fk_col]}")
+
+                    # 3. INSERÇÃO DA TABELA PARENTE (ITEM_LICITACAO)
+                    pk_column = self.get_primary_key(table, fk_map)
+                    new_id = self.insert_table(
+                        cursor, table, values, pk_column,
+                        identificadores, raw_data_id, data_font
+                    )
+                    inserted_ids[table].append(new_id)
+                    print(f"    - ID Pai inserido: {new_id} ({table})")
+
+                    # 4. INSERÇÃO DOS FILHOS ANINHADOS (COTACAO)
+                    if nested_children:
+                        for child_table, child_data in nested_children.items():
+                            
+                            # Normaliza dados aninhados para lista (se for um objeto aninhado único)
+                            if not isinstance(child_data, list):
+                                child_data = [child_data]
+                            
+                            # Identifica qual coluna FK no filho aponta de volta para o pai atual (table)
+                            parent_fk_map = fk_map.get(child_table, {})
+                            fk_col_to_parent = None
+                            
+                            # Busca a FK que referencia a tabela PARENT (table)
+                            for col, (ref_t, ref_pk) in parent_fk_map.items():
+                                if ref_t == table:
+                                    fk_col_to_parent = col
+                                    break
+
+                            if fk_col_to_parent is None:
+                                logger.error(f"Erro: Tabela filha aninhada '{child_table}' não possui FK mapeada de volta para o pai '{table}'.")
+                                continue
+                            
+                            for child_values in child_data:
+                                # Atribui o ID do PARENTE (recém-inserido) como FK no registro FILHO
+                                child_values[fk_col_to_parent] = new_id
+                                print(f"    - Atribuindo FK '{fk_col_to_parent}'='{new_id}' para '{child_table}'.")
+                                
+                                child_pk = self.get_primary_key(child_table, fk_map)
+                                self.insert_table(
+                                    cursor, child_table, child_values, child_pk,
+                                    identificadores, raw_data_id, data_font
+                                )
+
+                    if table == 'processo_licitatorio':
+                        if 'dynamic' in data.keys():
+                            table_data = data['dynamic']
+                            table_data['id_processo_licitatorio'] = new_id
+                            self.insert_table(
+                            cursor, 'dynamic', table_data, pk_column,
+                            identificadores, raw_data_id, data_font
+                            )
+            self.pg_connection.commit()
+        
+        return {
+            t: ids[0] if len(ids) == 1 else ids
+            for t, ids in inserted_ids.items()
+            if ids and any(id is not None for id in ids)
+        }
+
+
+    # def topic_exchange(self, operation: str, table_name: str, body: str):
+    #     channel = self.queue_manager.channel
+    #     routing_key = f"{operation}.{table_name}"
+    #     print(f"Publicando mensagem com routing_key: {routing_key}")
+    #     channel.exchange_declare(exchange='topic_db_insert_update', exchange_type='topic')
+    #     channel.basic_publish(exchange='topic_db_insert_update', routing_key=routing_key, body=body)
+
+    def process_message(self, message):
+        message_original = json.loads(json.dumps(message)) 
+        message_convertida = self.converter_datas(message)
+
+        data_font = message_convertida.get("data_font", "").upper()
+    
+        if data_font != "NFE" and not self.orient_client:
+            self.orient_client = CeosOrientDBClient(
+                host=os.getenv("HOST_ORIENT"),
+                port=os.getenv("PORT_ORIENT"),
+                username=os.getenv("USERNAME_ORIENT"),
+                password=os.getenv("SENHA_ORIENT"),
+                graph_name=os.getenv("DATABASE_ORIENT")
+            )
+        ids_gerados = self.insert_data(
+            message_convertida, self.fk_map, self.table_insert_order, self.table_identifiers
+        )
+        
+        # if ids_gerados:
+        #     tabela_principal = None
+        #     for tabela in self.table_insert_order:
+        #         if tabela in message_original:
+        #             tabela_principal = tabela
+        #             break
+
+        #     if tabela_principal:
+        #         operation = "insert"
+        #         corpo_notificacao = json.dumps({
+        #             "dados_originais": message_original,
+        #             "ids_gerados_db": ids_gerados
+        #         })
+        #         self.topic_exchange(operation, tabela_principal, corpo_notificacao)
+        # if self.orient_client:
+            # self.define_graph_edges(ids_gerados)
+        return ids_gerados
+
+
+if __name__ == "__main__":
+    logger = Logger(log_to_console=True)
+    with open("./inserter-updater/exemplos/teste-epublica.txt", "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    processor = InserterUpdater()
+
+    for js in data:
+        try:
+            if processor.pg_connection:
+                print("Iniciando o serviço InserterUpdater...")
+                processor.process_message(js)
+                print("---------------------------------------------------------")
+            else:
+                logger.critical("Não foi possível iniciar o serviço devido a falhas de conexão na inicialização.")
+        except KeyboardInterrupt:
+            print("Serviço interrompido pelo usuário.")
+        finally:
+            processor.shutdown()

@@ -1,0 +1,8 @@
+python-dateutil
+PyYAML>=6.0
+pika
+minio
+requests
+bs4
+sentry_sdk==0.10.2
+pymongo

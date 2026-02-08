@@ -1,0 +1,2078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEOS Data Ingestion System Manager</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 1rem 2rem;
+            border-bottom: 2px solid #e94560;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 { color: #e94560; font-size: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .header-actions { display: flex; gap: 1rem; align-items: center; }
+        .status-indicator { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .status-dot.online { background: #7bed9f; box-shadow: 0 0 10px #7bed9f; }
+        .status-dot.offline { background: #e94560; }
+        
+        .tools-bar {
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            padding: 0.5rem 2rem;
+            border-bottom: 1px solid #2a2a4a;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            overflow-x: auto;
+        }
+        .tools-bar.hidden { display: none; }
+        .tools-bar-toggle {
+            background: none;
+            border: none;
+            color: #00d9ff;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .tools-bar-toggle:hover { color: #fff; }
+        .tool-link {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.75rem;
+            background: #252540;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #e0e0e0;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .tool-link:hover { background: #e94560; color: #fff; transform: translateY(-2px); }
+        .tool-icon { font-size: 1rem; }
+        .tool-creds { font-size: 0.65rem; color: #888; margin-left: 0.25rem; }
+        .tool-link:hover .tool-creds { color: rgba(255,255,255,0.7); }
+        
+        .main-content { display: flex; height: calc(100vh - 60px); }
+        .main-content.with-tools-bar { height: calc(100vh - 100px); }
+        
+        .sidebar {
+            width: 250px;
+            min-width: 100px;
+            max-width: 500px;
+            background: #1a1a2e;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+        .sidebar.left { border-right: 1px solid #2a2a4a; }
+        .sidebar.right { border-left: 1px solid #2a2a4a; }
+        .sidebar.collapsed { width: 0 !important; min-width: 0; padding: 0; }
+        .sidebar.collapsed .sidebar-section { display: none; }
+        .sidebar.collapsed .resize-handle { display: none; }
+        
+        .resize-handle {
+            position: absolute;
+            top: 0;
+            width: 6px;
+            height: 100%;
+            cursor: col-resize;
+            background: transparent;
+            z-index: 10;
+            transition: background 0.2s;
+        }
+        .resize-handle:hover, .resize-handle.active {
+            background: #e94560;
+        }
+        .resize-handle.left { right: -3px; }
+        .resize-handle.right { left: -3px; }
+        
+        .sidebar-toggle {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1a1a2e;
+            border: 1px solid #2a2a4a;
+            color: #00d9ff;
+            padding: 0.5rem 0.25rem;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 4px;
+        }
+        .sidebar-toggle.left { left: 0; border-left: none; border-radius: 0 4px 4px 0; }
+        .sidebar-toggle.right { right: 0; border-right: none; border-radius: 4px 0 0 4px; }
+        .sidebar-toggle:hover { background: #252540; }
+        .sidebar-section { padding: 1rem; border-bottom: 1px solid #2a2a4a; }
+        .sidebar-title { color: #00d9ff; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .queue-list { list-style: none; }
+        .queue-item {
+            padding: 0.6rem 0.75rem;
+            margin: 0.25rem 0;
+            background: #252540;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        .queue-item:hover { background: #303050; transform: translateX(3px); }
+        .queue-item.active { background: #e94560; }
+        .queue-name { font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
+        .queue-counts {
+            display: flex;
+            gap: 0.2rem;
+            font-size: 0.6rem;
+            flex-shrink: 0;
+        }
+        .queue-count {
+            padding: 0.1rem 0.25rem;
+            border-radius: 3px;
+            font-weight: bold;
+            min-width: 18px;
+            text-align: center;
+        }
+        .queue-count.ready { background: #27ae60; color: #fff; }
+        .queue-count.unacked { background: #f39c12; color: #000; }
+        .queue-count.total { background: #0f3460; color: #fff; }
+        .queue-item.active .queue-count { opacity: 0.9; }
+        .queue-count.has-messages { background: #e94560; }
+        
+        .container-list { list-style: none; }
+        .container-item {
+            padding: 0.5rem 0.75rem;
+            margin: 0.25rem 0;
+            background: #252540;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+        .container-item:hover { background: #303050; }
+        .container-item.active { background: #0f3460; border: 1px solid #00d9ff; }
+        .container-status { font-size: 0.7rem; padding: 0.15rem 0.4rem; border-radius: 4px; }
+        .container-status.running { background: #7bed9f; color: #000; }
+        .container-status.exited { background: #e94560; color: #fff; }
+        
+        .group-header {
+            padding: 0.5rem 0.75rem;
+            background: #16213e;
+            color: #00d9ff;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 0.5rem 0 0.25rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .group-header:hover { background: #1a2a4e; }
+        .group-header::after { content: '▼'; font-size: 0.6rem; }
+        .group-header.collapsed::after { content: '▶'; }
+        .group-items { list-style: none; padding: 0; margin: 0; }
+        .group-items.hidden { display: none; }
+        
+        .content-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        
+        .tabs {
+            display: flex;
+            background: #1a1a2e;
+            border-bottom: 1px solid #2a2a4a;
+        }
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            color: #888;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .tab:hover { color: #fff; background: rgba(255,255,255,0.05); }
+        .tab.active { color: #e94560; border-bottom-color: #e94560; }
+        
+        .panel { flex: 1; overflow: auto; padding: 1rem; display: none; }
+        .panel.active { display: block; }
+        
+        .toolbar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+        }
+        .btn-primary { background: #e94560; color: #fff; }
+        .btn-primary:hover { background: #ff6b6b; }
+        .btn-secondary { background: #0f3460; color: #fff; }
+        .btn-secondary:hover { background: #1a4a7a; }
+        .btn-danger { background: #c0392b; color: #fff; }
+        .btn-danger:hover { background: #e74c3c; }
+        .btn-success { background: #27ae60; color: #fff; }
+        .btn-success:hover { background: #2ecc71; }
+        
+        select, input {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #2a2a4a;
+            border-radius: 6px;
+            background: #252540;
+            color: #e0e0e0;
+            font-size: 0.85rem;
+        }
+        select:focus, input:focus { outline: none; border-color: #e94560; }
+        
+        .messages-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .error-summary {
+            background: #1a1a2e;
+            border: 1px solid #e94560;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .error-summary-title { color: #e94560; font-weight: bold; margin-bottom: 0.75rem; }
+        .error-summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background: #252540;
+            border-radius: 4px;
+            margin-bottom: 0.25rem;
+            font-size: 0.8rem;
+        }
+        .error-summary-item:hover { background: #303050; }
+        .error-count { color: #e94560; font-weight: bold; min-width: 40px; text-align: right; }
+        .error-type { color: #e0e0e0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .error-group { margin-bottom: 0.5rem; }
+        .error-group-header {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            background: #252540;
+            border-radius: 4px;
+            cursor: pointer;
+            gap: 0.5rem;
+        }
+        .error-group-header:hover { background: #303050; }
+        .error-group-toggle { color: #00d9ff; font-size: 0.7rem; width: 15px; }
+        .error-group-messages {
+            margin-left: 1.5rem;
+            margin-top: 0.25rem;
+            border-left: 2px solid #e94560;
+            padding-left: 0.5rem;
+        }
+        .error-message-item {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.35rem 0.5rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .error-message-item:hover { background: #252540; }
+        .error-message-index { color: #00d9ff; font-weight: bold; min-width: 35px; }
+        .error-message-preview { color: #888; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .pagination { display: flex; gap: 0.5rem; align-items: center; }
+        .pagination-info { color: #888; font-size: 0.85rem; margin-left: auto; }
+        .message-item {
+            background: #1a1a2e;
+            border: 1px solid #2a2a4a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: #252540;
+            cursor: pointer;
+        }
+        .message-header:hover { background: #303050; }
+        .message-index { color: #00d9ff; font-weight: bold; }
+        .message-size { color: #888; font-size: 0.75rem; margin-left: 0.5rem; }
+        .message-actions { display: flex; gap: 0.5rem; }
+        .message-body {
+            padding: 1rem;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            font-size: 0.8rem;
+            max-height: 500px;
+            overflow: auto;
+            display: none;
+            background: #0a0a14;
+            border-top: 1px solid #2a2a4a;
+            white-space: pre;
+            line-height: 1.5;
+        }
+        .message-body.expanded { display: block; }
+        
+        .logs-container {
+            background: #0a0a14;
+            border: 1px solid #2a2a4a;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.75rem;
+            line-height: 1.6;
+            max-height: calc(100vh - 250px);
+            overflow: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .log-line { padding: 0.1rem 0; }
+        .log-line:hover { background: rgba(255,255,255,0.05); }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .stat-card {
+            background: #1a1a2e;
+            border: 1px solid #2a2a4a;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .stat-label { color: #888; font-size: 0.8rem; margin-bottom: 0.5rem; }
+        .stat-value { color: #00d9ff; font-size: 1.5rem; font-weight: bold; }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 1.5rem;
+            min-width: 400px;
+            max-width: 600px;
+            border: 1px solid #2a2a4a;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .modal-title { color: #e94560; font-size: 1.1rem; }
+        .modal-close { background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer; padding: 0; }
+        .modal-close:hover { color: #fff; }
+        .modal-body { margin-bottom: 1rem; }
+        .modal-footer { display: flex; justify-content: flex-end; gap: 0.5rem; }
+        
+        .form-group { margin-bottom: 1rem; }
+        .form-label { display: block; color: #888; font-size: 0.85rem; margin-bottom: 0.5rem; }
+        .form-control { width: 100%; }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        .empty-state-icon { font-size: 3rem; margin-bottom: 1rem; }
+        
+        .refresh-indicator {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .json-key { color: #f8b500; }
+        .json-string { color: #98c379; }
+        .json-number { color: #61afef; }
+        .json-boolean { color: #c678dd; }
+        .json-null { color: #888; font-style: italic; }
+        .json-bracket { color: #abb2bf; }
+        .json-comma { color: #abb2bf; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>CEOS Data Ingestion System Manager</h1>
+        <div class="header-actions">
+            <button class="tools-bar-toggle" onclick="toggleToolsBar()" title="Toggle Tools Bar">
+                <span id="toolsBarToggleIcon">🔧</span> Tools
+            </button>
+            <div class="status-indicator">
+                <span class="status-dot" id="apiStatus"></span>
+                <span id="apiStatusText">Connecting...</span>
+            </div>
+            <button class="btn-secondary" onclick="refreshAll(true)">Refresh</button>
+            <button class="btn-secondary" onclick="restartAllContainers()">Restart All</button>
+            <button class="btn-danger" onclick="rebuildAllContainers()">Rebuild All</button>
+        </div>
+    </div>
+    
+    <div class="tools-bar" id="toolsBar">
+        <a href="http://localhost:1337" target="_blank" class="tool-link" title="Trigger Management">
+            <span class="tool-icon">⚡</span>
+            <span>Triggers</span>
+        </a>
+        <a href="http://localhost:15672" target="_blank" class="tool-link" title="RabbitMQ Management">
+            <span class="tool-icon">🐰</span>
+            <span>RabbitMQ</span>
+            <span class="tool-creds">admin:admin</span>
+        </a>
+        <a href="http://localhost:5050" target="_blank" class="tool-link" title="PostgreSQL Admin">
+            <span class="tool-icon">🐘</span>
+            <span>PGAdmin</span>
+            <span class="tool-creds">admin@admin.com:admin</span>
+        </a>
+        <a href="http://localhost:8081" target="_blank" class="tool-link" title="MongoDB Admin">
+            <span class="tool-icon">🍃</span>
+            <span>Mongo Express</span>
+            <span class="tool-creds">admin:admin</span>
+        </a>
+        <a href="http://localhost:2480" target="_blank" class="tool-link" title="OrientDB Studio">
+            <span class="tool-icon">🔷</span>
+            <span>OrientDB</span>
+            <span class="tool-creds">root:admin</span>
+        </a>
+        <a href="http://localhost:9000" target="_blank" class="tool-link" title="MinIO Object Storage">
+            <span class="tool-icon">📦</span>
+            <span>MinIO</span>
+            <span class="tool-creds">minioadmin:minioadmin</span>
+        </a>
+    </div>
+    
+    <div class="main-content with-tools-bar" id="mainContent">
+        <div class="sidebar left" id="leftSidebar">
+            <div class="sidebar-section" style="flex:1;overflow:auto">
+                <div class="sidebar-title">📨 Queues</div>
+                <ul class="queue-list" id="queueList">
+                    <li class="empty-state" style="padding:1rem;font-size:0.8rem">Loading...</li>
+                </ul>
+            </div>
+            <div class="resize-handle left" id="leftResizeHandle"></div>
+        </div>
+        
+        <div class="content-area">
+            <button class="sidebar-toggle left" onclick="toggleSidebar('left')" title="Toggle Queues">◀</button>
+            <button class="sidebar-toggle right" onclick="toggleSidebar('right')" title="Toggle Containers">▶</button>
+            <div class="tabs">
+                <div class="tab active" data-tab="messages" onclick="switchTab('messages')">📝 Messages</div>
+                <div class="tab" data-tab="logs" onclick="switchTab('logs')">📋 Logs</div>
+                <div class="tab" data-tab="stats" onclick="switchTab('stats')">📊 Stats</div>
+            </div>
+            
+            <div class="panel active" id="messagesPanel">
+                <div class="toolbar">
+                    <button class="btn-primary" onclick="loadMessages()">🔄 Refresh Messages</button>
+                    <button class="btn-success" onclick="openPublishModal()">➕ Publish Message</button>
+                    <button class="btn-secondary" onclick="openMoveModal()">📤 Move Messages</button>
+                    <button class="btn-danger" type="button" onclick="confirmPurge()">Purge Queue</button>
+                    <select id="messageLimit" onchange="loadMessages()">
+                        <option value="10">10 messages</option>
+                        <option value="25">25 messages</option>
+                        <option value="50">50 messages</option>
+                        <option value="100">100 messages</option>
+                        <option value="500">500 messages</option>
+                    </select>
+                </div>
+                <div id="messagesQuickActionsContainer" style="margin-bottom:1rem;"></div>
+                <div id="errorSummaryContainer" style="display:none; margin-bottom:1rem;"></div>
+                <div id="paginationContainer" style="display:none; margin-bottom:1rem; display:flex; gap:0.5rem; align-items:center;"></div>
+                <div id="messagesContainer">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <p>Select a queue to view messages</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel" id="logsPanel">
+                <div class="toolbar">
+                    <button class="btn-primary" onclick="loadLogs()">Refresh Logs</button>
+                    <button class="btn-success" onclick="startContainer()">Start</button>
+                    <button class="btn-danger" onclick="stopContainer()">Stop</button>
+                    <button class="btn-secondary" onclick="restartContainer()">Restart</button>
+                    <button class="btn-secondary" onclick="rebuildContainer()">Rebuild</button>
+                    <select id="logLines" onchange="loadLogs()">
+                        <option value="50">50 lines</option>
+                        <option value="100" selected>100 lines</option>
+                        <option value="200">200 lines</option>
+                        <option value="500">500 lines</option>
+                    </select>
+                </div>
+                <div class="logs-container" id="logsContainer">
+                    Select a container to view logs
+                </div>
+            </div>
+            
+            <div class="panel" id="statsPanel">
+                <div class="toolbar">
+                    <button class="btn-primary" onclick="loadStats()">🔄 Refresh Stats</button>
+                </div>
+                <div id="quickActionsContainer" style="margin-bottom:1rem;"></div>
+                <div class="stats-grid" id="statsContainer">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Queues</div>
+                        <div class="stat-value" id="totalQueues">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Messages</div>
+                        <div class="stat-value" id="totalMessages">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Running Containers</div>
+                        <div class="stat-value" id="runningContainers">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Containers</div>
+                        <div class="stat-value" id="totalContainers">-</div>
+                    </div>
+                </div>
+                <div id="containerStatsContainer"></div>
+            </div>
+        </div>
+        
+        <div class="sidebar right" id="rightSidebar">
+            <div class="resize-handle right" id="rightResizeHandle"></div>
+            <div class="sidebar-section" style="flex:1;overflow:auto">
+                <div class="sidebar-title">🐳 Containers</div>
+                <ul class="container-list" id="containerList">
+                    <li class="empty-state" style="padding:1rem;font-size:0.8rem">Loading...</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Move Messages Modal -->
+    <div class="modal" id="moveModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">Move Messages</span>
+                <button class="modal-close" onclick="closeModal('moveModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" id="quickRetrySection" style="display:none; margin-bottom:1.5rem; padding:1rem; background:#0f3460; border-radius:8px;">
+                    <label class="form-label" style="color:#00d9ff; font-weight:bold;">⚡ Quick Retry</label>
+                    <p style="font-size:0.8rem; color:#888; margin-bottom:0.75rem;">Move all messages back to the source queue for retry</p>
+                    <button class="btn-success" id="quickRetryBtn" onclick="quickRetryAll()" style="width:100%;">
+                        🔄 Retry All Messages
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Source Queue</label>
+                    <input type="text" class="form-control" id="moveSource" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Target Queue</label>
+                    <select class="form-control" id="moveTarget"></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Number of Messages</label>
+                    <input type="number" class="form-control" id="moveCount" value="1" min="1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('moveModal')">Cancel</button>
+                <button class="btn-primary" onclick="moveMessages()">Move</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit & Move Message Modal -->
+    <div class="modal" id="editMoveModal">
+        <div class="modal-content" style="min-width:600px">
+            <div class="modal-header">
+                <span class="modal-title">✏️ Edit & Move Message</span>
+                <button class="modal-close" onclick="closeModal('editMoveModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Source Queue</label>
+                    <input type="text" class="form-control" id="editMoveSource" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Target Queue</label>
+                    <select class="form-control" id="editMoveTarget"></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message Content (JSON)</label>
+                    <textarea class="form-control" id="editMoveContent" rows="15" style="font-family:monospace;font-size:0.85rem"></textarea>
+                </div>
+                <input type="hidden" id="editMoveIndex">
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('editMoveModal')">Cancel</button>
+                <button class="btn-secondary" onclick="formatEditMoveJson()">Format JSON</button>
+                <button class="btn-primary" onclick="submitEditMove()">Move Message</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Publish Message Modal -->
+    <div class="modal" id="publishModal">
+        <div class="modal-content" style="min-width:500px">
+            <div class="modal-header">
+                <span class="modal-title">📤 Publish Message</span>
+                <button class="modal-close" onclick="closeModal('publishModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Queue</label>
+                    <select class="form-control" id="publishQueue"></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Load Example</label>
+                    <select class="form-control" id="exampleSelect" onchange="loadExample()">
+                        <option value="">-- Select an example --</option>
+                        <option value="collector_input">Esfinge Collector Input</option>
+                        <option value="collector_output">Esfinge Collector Output (Processor Input)</option>
+                        <option value="processor_output">Esfinge Processor Output</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message (JSON)</label>
+                    <textarea class="form-control" id="publishMessage" rows="12" style="font-family:monospace;font-size:0.85rem" placeholder='{"entity_type": "processo_licitatorio", ...}'></textarea>
+                </div>
+                <div class="form-group" style="display:flex; align-items:center; gap:0.5rem;">
+                    <input type="checkbox" id="useCacheCheckbox" style="width:18px; height:18px; cursor:pointer;">
+                    <label for="useCacheCheckbox" style="cursor:pointer; margin:0;">Add <code style="background:#0f3460; padding:2px 6px; border-radius:4px;">use_cache: false</code> to message</label>
+                </div>
+                <div class="form-group" id="bulkCollectorSection" style="display:none; background:#0f3460; padding:1rem; border-radius:8px; margin-top:1rem;">
+                    <label class="form-label" style="color:#00d9ff; font-weight:bold;">📅 Bulk Publish</label>
+                    <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+                        <select class="form-control" id="bulkYear" style="width:100px;">
+                            <option value="2015">2015</option>
+                            <option value="2016">2016</option>
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025" selected>2025</option>
+                        </select>
+                        <select class="form-control" id="bulkMonth" style="width:120px;">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12" selected>December</option>
+                        </select>
+                        <button class="btn-success" onclick="publishBulkCollectorMonth()" style="flex:1;">
+                            🚀 Publish Month
+                        </button>
+                    </div>
+                    <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+                        <button class="btn-primary" onclick="publishBulkCollectorYear()" style="flex:1;">
+                            📆 Publish Entire Year
+                        </button>
+                    </div>
+                    <p style="font-size:0.75rem; color:#888; margin-top:0.5rem;">Publish one message per day for the selected month or entire year.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('publishModal')">Cancel</button>
+                <button class="btn-secondary" onclick="formatJson()">Format JSON</button>
+                <button class="btn-primary" onclick="publishMessage()">Publish</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+        let selectedQueue = null;
+        let selectedContainer = null;
+        let queuesData = [];
+        let containersData = [];
+        let autoRefreshPaused = false;
+
+        // Sidebar resize functionality
+        (function initResizeHandles() {
+            const leftSidebar = document.getElementById('leftSidebar');
+            const rightSidebar = document.getElementById('rightSidebar');
+            const leftHandle = document.getElementById('leftResizeHandle');
+            const rightHandle = document.getElementById('rightResizeHandle');
+            
+            let isResizing = false;
+            let currentSidebar = null;
+            let currentHandle = null;
+            let startX = 0;
+            let startWidth = 0;
+
+            function startResize(e, sidebar, handle, isLeft) {
+                isResizing = true;
+                currentSidebar = sidebar;
+                currentHandle = handle;
+                startX = e.clientX;
+                startWidth = sidebar.offsetWidth;
+                handle.classList.add('active');
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+                
+                const moveHandler = (e) => {
+                    if (!isResizing) return;
+                    const delta = isLeft ? (e.clientX - startX) : (startX - e.clientX);
+                    const newWidth = Math.max(100, Math.min(500, startWidth + delta));
+                    currentSidebar.style.width = newWidth + 'px';
+                };
+                
+                const stopHandler = () => {
+                    isResizing = false;
+                    if (currentHandle) currentHandle.classList.remove('active');
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                    document.removeEventListener('mousemove', moveHandler);
+                    document.removeEventListener('mouseup', stopHandler);
+                };
+                
+                document.addEventListener('mousemove', moveHandler);
+                document.addEventListener('mouseup', stopHandler);
+            }
+
+            leftHandle.addEventListener('mousedown', (e) => startResize(e, leftSidebar, leftHandle, true));
+            rightHandle.addEventListener('mousedown', (e) => startResize(e, rightSidebar, rightHandle, false));
+        })();
+
+        // Tools bar toggle functionality
+        function toggleToolsBar() {
+            const toolsBar = document.getElementById('toolsBar');
+            const mainContent = document.getElementById('mainContent');
+            const isHidden = toolsBar.classList.toggle('hidden');
+            mainContent.classList.toggle('with-tools-bar', !isHidden);
+            localStorage.setItem('toolsBarHidden', isHidden);
+        }
+
+        // Restore tools bar state from localStorage
+        (function initToolsBar() {
+            const isHidden = localStorage.getItem('toolsBarHidden') === 'true';
+            if (isHidden) {
+                document.getElementById('toolsBar').classList.add('hidden');
+                document.getElementById('mainContent').classList.remove('with-tools-bar');
+            }
+        })();
+
+        async function api(endpoint, options = {}) {
+            try {
+                const response = await fetch(API_BASE + endpoint, {
+                    ...options,
+                    headers: { 'Content-Type': 'application/json', ...options.headers }
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        async function checkApiStatus() {
+            const status = document.getElementById('apiStatus');
+            const statusText = document.getElementById('apiStatusText');
+            try {
+                const result = await api('/queues');
+                if (result.success) {
+                    status.className = 'status-dot online';
+                    statusText.textContent = 'Connected';
+                    return true;
+                }
+            } catch (e) {}
+            status.className = 'status-dot offline';
+            statusText.textContent = 'Disconnected';
+            return false;
+        }
+
+        async function loadQueues() {
+            const result = await api('/queues');
+            if (result.success) {
+                queuesData = result.queues;
+                renderQueues(result.queues);
+                updateStats();
+            }
+        }
+
+        function categorizeItem(name) {
+            const lowerName = name.toLowerCase();
+            if (lowerName.includes('collector')) return 'collectors';
+            if (lowerName.includes('processor')) return 'processors';
+            if (lowerName.includes('verifier')) return 'verifiers';
+            if (lowerName.includes('quality') || lowerName.includes('checker')) return 'quality-checker';
+            if (lowerName.includes('inserter') || lowerName.includes('updater')) return 'inserter-updater';
+            return 'others';
+        }
+
+        function renderQueues(queues) {
+            const list = document.getElementById('queueList');
+            if (queues.length === 0) {
+                list.innerHTML = '<li class="empty-state" style="padding:1rem;font-size:0.8rem">No queues found</li>';
+                return;
+            }
+            
+            const groups = { collectors: [], processors: [], verifiers: [], 'quality-checker': [], 'inserter-updater': [], others: [] };
+            queues.forEach(q => {
+                const cat = categorizeItem(q.name);
+                groups[cat].push(q);
+            });
+            
+            let html = '';
+            const groupNames = { collectors: '📥 Collectors', processors: '⚙️ Processors', verifiers: '✅ Verifiers', 'quality-checker': '🔍 Quality Checker', 'inserter-updater': '💾 Inserter/Updater', others: '📦 Others' };
+            
+            for (const [key, items] of Object.entries(groups)) {
+                if (items.length === 0) continue;
+                html += `<div class="group-header" onclick="toggleGroup(this)">${groupNames[key]} (${items.length})</div>`;
+                html += `<ul class="group-items">`;
+                html += items.map(q => `
+                    <li class="queue-item ${selectedQueue === q.name ? 'active' : ''}" onclick="selectQueue('${q.name}')">
+                        <span class="queue-name" title="${q.name}">${q.name}</span>
+                        <div class="queue-counts">
+                            <span class="queue-count ready" title="Ready">${q.ready || 0}</span>
+                            <span class="queue-count unacked" title="Processing">${q.unacked || 0}</span>
+                            <span class="queue-count total" title="Total">${q.messages || 0}</span>
+                        </div>
+                    </li>
+                `).join('');
+                html += `</ul>`;
+            }
+            list.innerHTML = html;
+        }
+
+        async function loadContainers() {
+            const result = await api('/containers');
+            if (result.success) {
+                containersData = result.containers;
+                renderContainers(result.containers);
+                updateStats();
+            }
+        }
+
+        function renderContainers(containers) {
+            const list = document.getElementById('containerList');
+            if (containers.length === 0) {
+                list.innerHTML = '<li class="empty-state" style="padding:1rem;font-size:0.8rem">No containers found</li>';
+                return;
+            }
+            
+            const groups = { collectors: [], processors: [], verifiers: [], 'quality-checker': [], 'inserter-updater': [], others: [] };
+            containers.forEach(c => {
+                const cat = categorizeItem(c.name);
+                groups[cat].push(c);
+            });
+            
+            let html = '';
+            const groupNames = { collectors: '📥 Collectors', processors: '⚙️ Processors', verifiers: '✅ Verifiers', 'quality-checker': '🔍 Quality Checker', 'inserter-updater': '💾 Inserter/Updater', others: '📦 Others' };
+            
+            for (const [key, items] of Object.entries(groups)) {
+                if (items.length === 0) continue;
+                const running = items.filter(c => c.state === 'running').length;
+                html += `<div class="group-header" onclick="toggleGroup(this)">${groupNames[key]} (${running}/${items.length})</div>`;
+                html += `<ul class="group-items">`;
+                html += items.map(c => `
+                    <li class="container-item ${selectedContainer === c.name ? 'active' : ''}" onclick="selectContainer('${c.name}')">
+                        <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px" title="${c.name}">${c.name.replace('main-server-', '')}</span>
+                        <span class="container-status ${c.state}">${c.state}</span>
+                    </li>
+                `).join('');
+                html += `</ul>`;
+            }
+            list.innerHTML = html;
+        }
+
+        function selectQueue(name) {
+            selectedQueue = name;
+            renderQueues(queuesData);
+            loadMessages();
+        }
+
+        function selectContainer(name) {
+            selectedContainer = name;
+            renderContainers(containersData);
+            loadLogs();
+        }
+
+        // Pagination state
+        let currentPage = 1;
+        let messagesPerPage = 50;
+        
+        async function loadMessages(page = 1) {
+            if (!selectedQueue) return;
+            messagesPerPage = parseInt(document.getElementById('messageLimit').value);
+            const container = document.getElementById('messagesContainer');
+            const errorSummaryContainer = document.getElementById('errorSummaryContainer');
+            const paginationContainer = document.getElementById('paginationContainer');
+            
+            container.innerHTML = '<div class="empty-state"><div class="refresh-indicator">🔄</div><p>Loading...</p></div>';
+            errorSummaryContainer.style.display = 'none';
+            paginationContainer.style.display = 'none';
+            
+            // Fetch a large number of messages (up to 5000) for pagination
+            const fetchLimit = 5000;
+            const result = await api(`/queues/${encodeURIComponent(selectedQueue)}/messages?limit=${fetchLimit}`);
+            if (result.success) {
+                if (result.messages.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📭</div><p>No messages in queue</p></div>';
+                    return;
+                }
+                // Store messages for edit access
+                window.currentMessages = result.messages;
+                
+                // Check if this is an error/falha queue and show error summary
+                if (selectedQueue.includes('_erro') || selectedQueue.includes('_error') || 
+                    selectedQueue.includes('_falha') || selectedQueue.includes('_fail')) {
+                    renderErrorSummary(result.messages);
+                }
+                
+                // Pagination logic - messagesPerPage comes from dropdown
+                const totalMessages = result.messages.length;
+                const totalPages = Math.ceil(totalMessages / messagesPerPage);
+                
+                // Validate current page
+                currentPage = Math.max(1, Math.min(page, totalPages));
+                
+                const startIdx = (currentPage - 1) * messagesPerPage;
+                const endIdx = Math.min(startIdx + messagesPerPage, totalMessages);
+                const paginated = result.messages.slice(startIdx, endIdx);
+                
+                // Render pagination if needed
+                if (totalPages > 1) {
+                    renderPagination(totalPages, totalMessages);
+                }
+                
+                container.innerHTML = '<div class="messages-list">' + paginated.map((msg, i) => {
+                    const msgSize = getMessageSizeMB(msg.body);
+                    return `
+                    <div class="message-item">
+                        <div class="message-header" onclick="toggleMessage(this)">
+                            <span class="message-index">#${startIdx + i + 1}</span>
+                            <span class="message-size">${msgSize}</span>
+                            <div class="message-actions">
+                                <button class="btn-secondary" onclick="event.stopPropagation(); downloadMessage(${startIdx + i})" title="Download JSON">💾</button>
+                                <button class="btn-secondary" onclick="event.stopPropagation(); openEditMoveModal(${startIdx + i})" title="Edit & Move">✏️</button>
+                                <button class="btn-secondary" onclick="event.stopPropagation(); requeueMessage(${startIdx + i})" title="Move to another queue">📤</button>
+                            </div>
+                        </div>
+                        <div class="message-body">${formatJson(msg.body)}</div>
+                    </div>
+                `}).join('') + '</div>';
+            } else {
+                container.innerHTML = `<div class="empty-state"><p>Error: ${result.error}</p></div>`;
+            }
+        }
+        
+        function renderPagination(totalPages, totalMessages) {
+            const container = document.getElementById('paginationContainer');
+            container.style.display = 'flex';
+            container.innerHTML = `
+                <div class="pagination">
+                    <button class="btn-secondary" onclick="loadMessages(1)" ${currentPage === 1 ? 'disabled' : ''}>⏮️</button>
+                    <button class="btn-secondary" onclick="loadMessages(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>◀️</button>
+                    <span style="color:#e0e0e0; padding:0 0.5rem;">Page ${currentPage} of ${totalPages}</span>
+                    <button class="btn-secondary" onclick="loadMessages(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>▶️</button>
+                    <button class="btn-secondary" onclick="loadMessages(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>⏭️</button>
+                </div>
+                <span class="pagination-info">Showing ${(currentPage-1)*messagesPerPage + 1}-${Math.min(currentPage*messagesPerPage, totalMessages)} of ${totalMessages} messages</span>
+            `;
+        }
+        
+        function getMessageSizeMB(body) {
+            const jsonStr = typeof body === 'string' ? body : JSON.stringify(body);
+            const bytes = new Blob([jsonStr]).size;
+            if (bytes < 1024) return `${bytes} B`;
+            if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+            return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+        }
+        
+        function downloadMessage(index) {
+            const msg = window.currentMessages[index];
+            if (!msg) return;
+            
+            const jsonStr = JSON.stringify(msg.body, null, 2);
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `message_${index + 1}_${selectedQueue}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function normalizeErrorMessage(msg) {
+            // Remove specific values in parentheses to group similar errors
+            return msg.replace(/\([^)]*\)/g, '(...)').trim();
+        }
+        
+        function renderErrorSummary(messages) {
+            const errorGroups = {};
+            
+            messages.forEach((msg, index) => {
+                let errorMsg = '';
+                const body = msg.body;
+                
+                // Try to extract error message from different formats
+                if (body && typeof body === 'object') {
+                    if (body.error) {
+                        errorMsg = typeof body.error === 'string' ? body.error : JSON.stringify(body.error);
+                    } else if (body.message) {
+                        errorMsg = typeof body.message === 'string' ? body.message : JSON.stringify(body.message);
+                    } else if (body.reason) {
+                        errorMsg = typeof body.reason === 'string' ? body.reason : JSON.stringify(body.reason);
+                    } else if (body.original_message && body.original_message.error) {
+                        errorMsg = body.original_message.error;
+                    }
+                }
+                
+                if (!errorMsg && body) {
+                    // Try to find any string that looks like an error
+                    const bodyStr = typeof body === 'string' ? body : JSON.stringify(body);
+                    const match = bodyStr.match(/"error":\s*"([^"]+)"/);
+                    if (match) errorMsg = match[1];
+                }
+                
+                if (!errorMsg) errorMsg = 'Unknown error format';
+                
+                const normalized = normalizeErrorMessage(errorMsg);
+                if (!errorGroups[normalized]) {
+                    errorGroups[normalized] = [];
+                }
+                errorGroups[normalized].push({ index, msg, originalError: errorMsg });
+            });
+            
+            // Sort by count descending
+            const sorted = Object.entries(errorGroups).sort((a, b) => b[1].length - a[1].length);
+            
+            const container = document.getElementById('errorSummaryContainer');
+            container.style.display = 'block';
+            container.innerHTML = `
+                <div class="error-summary">
+                    <div class="error-summary-title">📊 Error Summary (${messages.length} messages, ${sorted.length} unique errors)</div>
+                    ${sorted.map(([error, items], groupIndex) => `
+                        <div class="error-group">
+                            <div class="error-group-header" onclick="toggleErrorGroup(${groupIndex})">
+                                <span class="error-group-toggle" id="errorToggle${groupIndex}">▶</span>
+                                <span class="error-type" title="${escapeHtml(error)}">${escapeHtml(error)}</span>
+                                <span class="error-count">${items.length}</span>
+                            </div>
+                            <div class="error-group-messages" id="errorGroup${groupIndex}" style="display:none;">
+                                ${items.map(item => `
+                                    <div class="error-message-item" onclick="scrollToMessage(${item.index})">
+                                        <span class="error-message-index">#${item.index + 1}</span>
+                                        <span class="error-message-preview">${escapeHtml(item.originalError.substring(0, 100))}${item.originalError.length > 100 ? '...' : ''}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        function toggleErrorGroup(groupIndex) {
+            const group = document.getElementById(`errorGroup${groupIndex}`);
+            const toggle = document.getElementById(`errorToggle${groupIndex}`);
+            if (group.style.display === 'none') {
+                group.style.display = 'block';
+                toggle.textContent = '▼';
+            } else {
+                group.style.display = 'none';
+                toggle.textContent = '▶';
+            }
+        }
+        
+        function scrollToMessage(index) {
+            // Calculate which page this message is on
+            const page = Math.floor(index / messagesPerPage) + 1;
+            if (page !== currentPage) {
+                loadMessages(page);
+            }
+            // Scroll to and highlight the message after a short delay
+            setTimeout(() => {
+                const messages = document.querySelectorAll('.message-item');
+                const localIndex = index % messagesPerPage;
+                if (messages[localIndex]) {
+                    messages[localIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    messages[localIndex].style.boxShadow = '0 0 10px #e94560';
+                    setTimeout(() => {
+                        messages[localIndex].style.boxShadow = '';
+                    }, 2000);
+                }
+            }, 100);
+        }
+
+        function toggleMessage(header) {
+            const body = header.nextElementSibling;
+            body.classList.toggle('expanded');
+            
+            // Check if any message is expanded - if so, pause auto-refresh
+            const expandedMessages = document.querySelectorAll('.message-body.expanded');
+            autoRefreshPaused = expandedMessages.length > 0;
+            
+            // Update status indicator
+            const statusText = document.getElementById('apiStatusText');
+            if (autoRefreshPaused) {
+                statusText.textContent = 'Paused (message open)';
+            } else {
+                statusText.textContent = 'Connected';
+            }
+        }
+
+        async function loadLogs() {
+            if (!selectedContainer) return;
+            const lines = document.getElementById('logLines').value;
+            const container = document.getElementById('logsContainer');
+            container.textContent = 'Loading...';
+            
+            const result = await api(`/containers/${encodeURIComponent(selectedContainer)}/logs?lines=${lines}`);
+            if (result.success) {
+                container.innerHTML = result.logs.split('\n').map(line => 
+                    `<div class="log-line">${escapeHtml(line)}</div>`
+                ).join('');
+                container.scrollTop = container.scrollHeight;
+            } else {
+                container.textContent = `Error: ${result.error}`;
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalQueues').textContent = queuesData.length;
+            document.getElementById('totalMessages').textContent = queuesData.reduce((sum, q) => sum + q.messages, 0);
+            document.getElementById('runningContainers').textContent = containersData.filter(c => c.state === 'running').length;
+            document.getElementById('totalContainers').textContent = containersData.length;
+            renderQuickActions();
+        }
+
+        function renderQuickActions() {
+            const statsContainer = document.getElementById('quickActionsContainer');
+            const messagesContainer = document.getElementById('messagesQuickActionsContainer');
+            const errorQueues = queuesData.filter(q => {
+                const target = getRetryTargetQueue(q.name);
+                return target && q.messages > 0 && queuesData.some(tq => tq.name === target);
+            });
+            
+            if (errorQueues.length === 0) {
+                if (statsContainer) statsContainer.innerHTML = '';
+                if (messagesContainer) messagesContainer.innerHTML = '';
+                return;
+            }
+            
+            let html = `
+                <div style="background:#1a1a2e; border:1px solid #2a2a4a; border-radius:8px; padding:1rem;">
+                    <div style="color:#e94560; font-weight:bold; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.5rem;">
+                        ⚡ Quick Retry Actions
+                        <span style="font-size:0.75rem; color:#888; font-weight:normal;">(Error queues with messages)</span>
+                    </div>
+                    <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+            `;
+            
+            errorQueues.forEach(q => {
+                const target = getRetryTargetQueue(q.name);
+                html += `
+                    <button class="btn-success" onclick="retryQueue('${q.name}', '${target}', ${q.messages})" style="font-size:0.8rem;">
+                        🔄 ${q.name} → ${target} (${q.messages})
+                    </button>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            if (statsContainer) statsContainer.innerHTML = html;
+            if (messagesContainer) messagesContainer.innerHTML = html;
+        }
+
+        async function retryQueue(source, target, count) {
+            if (!confirm(`Move all ${count} message(s) from "${source}" to "${target}"?`)) {
+                return;
+            }
+            
+            const result = await api('/queues/move', {
+                method: 'POST',
+                body: JSON.stringify({ source, target, count })
+            });
+            
+            if (result.success) {
+                alert(`✅ Moved ${result.moved} message(s) from ${source} to ${target}`);
+                loadQueues();
+            } else {
+                alert(`Error: ${result.error}`);
+            }
+        }
+
+        async function loadStats() {
+            await loadQueues();
+            await loadContainers();
+        }
+
+        function getRetryTargetQueues(queueName) {
+            // Special case: inserter_updater_erro goes back to quality_checker AND inserter_updater
+            if (queueName === 'all_inserter_updater_erro' || queueName === 'all_inserter_updater_error') {
+                return ['all_quality_checker', 'all_inserter_updater'];
+            }
+            // Pattern: *_erro -> * (remove _erro suffix) - Portuguese
+            if (queueName.endsWith('_erro')) {
+                return [queueName.replace(/_erro$/, '')];
+            }
+            // Pattern: *_error -> * (remove _error suffix)
+            if (queueName.endsWith('_error')) {
+                return [queueName.replace(/_error$/, '')];
+            }
+            // Pattern: *_fail -> * (remove _fail suffix)
+            if (queueName.endsWith('_fail')) {
+                return [queueName.replace(/_fail$/, '')];
+            }
+            // Pattern: *_falha -> * (remove _falha suffix) - Portuguese
+            if (queueName.endsWith('_falha')) {
+                return [queueName.replace(/_falha$/, '')];
+            }
+            return [];
+        }
+        
+        // Keep old function for compatibility
+        function getRetryTargetQueue(queueName) {
+            const targets = getRetryTargetQueues(queueName);
+            return targets.length > 0 ? targets[0] : null;
+        }
+
+        function openMoveModal() {
+            if (!selectedQueue) {
+                alert('Please select a source queue first');
+                return;
+            }
+            document.getElementById('moveSource').value = selectedQueue;
+            const targetSelect = document.getElementById('moveTarget');
+            targetSelect.innerHTML = queuesData.map(q => 
+                `<option value="${q.name}" ${q.name === selectedQueue ? 'disabled' : ''}>${q.name}</option>`
+            ).join('');
+            
+            // Check if this is an error/fail queue and show quick retry options
+            const retryTargets = getRetryTargetQueues(selectedQueue);
+            const quickRetrySection = document.getElementById('quickRetrySection');
+            const quickRetryBtn = document.getElementById('quickRetryBtn');
+            
+            console.log('Selected queue:', selectedQueue);
+            console.log('Retry targets:', retryTargets);
+            
+            if (retryTargets.length > 0) {
+                quickRetrySection.style.display = 'block';
+                
+                // Build buttons for all targets
+                let buttonsHtml = '';
+                retryTargets.forEach(target => {
+                    const targetExists = queuesData.some(q => q.name === target);
+                    if (targetExists) {
+                        buttonsHtml += `<button class="btn-success" onclick="quickRetryToTarget('${target}')" style="width:100%; margin-bottom:0.5rem;">🔄 Retry All → ${target}</button>`;
+                    } else {
+                        buttonsHtml += `<button class="btn-secondary" disabled style="width:100%; margin-bottom:0.5rem;">🔄 Target "${target}" not found</button>`;
+                    }
+                });
+                
+                quickRetryBtn.outerHTML = `<div id="quickRetryBtn">${buttonsHtml}</div>`;
+                
+                // Pre-select the first valid target in the dropdown
+                const firstValidTarget = retryTargets.find(t => queuesData.some(q => q.name === t));
+                if (firstValidTarget) {
+                    targetSelect.value = firstValidTarget;
+                }
+            } else {
+                quickRetrySection.style.display = 'none';
+            }
+            
+            document.getElementById('moveModal').classList.add('active');
+        }
+        
+        async function quickRetryToTarget(target) {
+            const source = document.getElementById('moveSource').value;
+            const sourceQueue = queuesData.find(q => q.name === source);
+            const messageCount = sourceQueue ? sourceQueue.messages : 0;
+            
+            if (messageCount === 0) {
+                alert('No messages to retry');
+                return;
+            }
+            
+            if (!confirm(`Move all ${messageCount} message(s) from "${source}" to "${target}"?`)) {
+                return;
+            }
+            
+            const result = await api('/queues/move', {
+                method: 'POST',
+                body: JSON.stringify({ source, target, count: messageCount })
+            });
+            
+            if (result.success) {
+                alert(`✅ Moved ${result.moved} message(s) from ${source} to ${target}`);
+                closeModal('moveModal');
+                loadQueues();
+                loadMessages();
+            } else {
+                alert(`Error: ${result.error}`);
+            }
+        }
+
+        async function quickRetryAll() {
+            const source = document.getElementById('moveSource').value;
+            const target = document.getElementById('quickRetryBtn').dataset.target;
+            const sourceQueue = queuesData.find(q => q.name === source);
+            const messageCount = sourceQueue ? sourceQueue.messages : 0;
+            
+            if (messageCount === 0) {
+                alert('No messages to retry');
+                return;
+            }
+            
+            if (!confirm(`Move all ${messageCount} message(s) from "${source}" to "${target}"?`)) {
+                return;
+            }
+            
+            const result = await api('/queues/move', {
+                method: 'POST',
+                body: JSON.stringify({ source, target, count: messageCount })
+            });
+            
+            if (result.success) {
+                alert(`✅ Moved ${result.moved} message(s) from ${source} to ${target}`);
+                closeModal('moveModal');
+                loadQueues();
+                loadMessages();
+            } else {
+                alert(`Error: ${result.error}`);
+            }
+        }
+
+        const EXAMPLE_MESSAGES = {
+            collector_input: {
+                queue: 'esfinge_collector',
+                message: {
+                    "url_s3": "https://s3.ceos.ufsc.br/",
+                    "bucket": "workflow-hmg",
+                    "prefix": "esfinge/",
+                    "data_path": "esfinge",
+                    "year": "[2020]",
+                    "month": "[2]",
+                    "day": "[24]",
+                    "entity_type": "processo_licitatorio"
+                }
+            },
+            collector_output: {
+                queue: 'esfinge_processor',
+                message: {
+                    "entity_type": "processo_licitatorio",
+                    "data_source": "esfinge",
+                    "collect_id": "693dc43ef8dc9ee07c29b5cd",
+                    "raw_data_collection": "esfinge.processo_licitatorio",
+                    "_id": "693dc43ef8dc9ee07c29b5ce",
+                    "raw_data_id": "693dc43ef8dc9ee07c29b5ce",
+                    "processo_licitatorio": {
+                        "id_procedimento_lictatorio": 1635996,
+                        "numero_edital": "PR6/2020",
+                        "descricao_objeto_licitacao": "AQUISIÇÃO DE TUBOS PARA REDE DE ESGOTO",
+                        "valor_total_previsto": "79902,16",
+                        "data_abertura_certame": "24/02/2020 00:00:00",
+                        "id_unidade_gestora": 388,
+                        "item_licitacao": [],
+                        "participante_licitacao": [],
+                        "empenho": [],
+                        "contrato": []
+                    }
+                }
+            },
+            processor_output: {
+                queue: 'esfinge_verifier',
+                message: {
+                    "entity_type": "processo_licitatorio",
+                    "data_source": "esfinge",
+                    "collect_id": "693dc43ef8dc9ee07c29b5cd",
+                    "raw_data_collection": "esfinge.processo_licitatorio",
+                    "_id": "693dc43ef8dc9ee07c29b5ce",
+                    "raw_data_id": "693dc43ef8dc9ee07c29b5ce",
+                    "processo_licitatorio": {
+                        "descricao_objeto": "AQUISIÇÃO DE TUBOS PARA REDE DE ESGOTO",
+                        "data_abertura_certame": "2020-02-24 00:00:00",
+                        "valor_total_previsto": "79902,16",
+                        "numero_edital": "PR6/2020",
+                        "id": 1635996,
+                        "item_licitacao": [],
+                        "empenho": [],
+                        "contrato": []
+                    }
+                }
+            }
+        };
+
+        function openPublishModal() {
+            const queueSelect = document.getElementById('publishQueue');
+            queueSelect.innerHTML = queuesData.map(q => 
+                `<option value="${q.name}" ${q.name === selectedQueue ? 'selected' : ''}>${q.name}</option>`
+            ).join('');
+            document.getElementById('publishMessage').value = '';
+            document.getElementById('exampleSelect').value = '';
+            document.getElementById('publishModal').classList.add('active');
+        }
+
+        function loadExample() {
+            const exampleKey = document.getElementById('exampleSelect').value;
+            const bulkSection = document.getElementById('bulkCollectorSection');
+            
+            // Show bulk section only for collector_input
+            if (exampleKey === 'collector_input') {
+                bulkSection.style.display = 'block';
+            } else {
+                bulkSection.style.display = 'none';
+            }
+            
+            if (!exampleKey) return;
+            
+            const example = EXAMPLE_MESSAGES[exampleKey];
+            if (example) {
+                // Set the queue
+                const queueSelect = document.getElementById('publishQueue');
+                for (let i = 0; i < queueSelect.options.length; i++) {
+                    if (queueSelect.options[i].value === example.queue) {
+                        queueSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+                // Set the message
+                document.getElementById('publishMessage').value = JSON.stringify(example.message, null, 2);
+            }
+        }
+        
+        function getDaysInMonth(year, month) {
+            return new Date(year, month, 0).getDate();
+        }
+        
+        async function publishBulkCollectorMonth() {
+            const queue = document.getElementById('publishQueue').value;
+            const messageText = document.getElementById('publishMessage').value;
+            const year = parseInt(document.getElementById('bulkYear').value);
+            const month = parseInt(document.getElementById('bulkMonth').value);
+            const useCache = document.getElementById('useCacheCheckbox').checked;
+            
+            if (!messageText.trim()) {
+                alert('Please enter a message template first');
+                return;
+            }
+            
+            let template;
+            try {
+                template = JSON.parse(messageText);
+            } catch (e) {
+                alert('Invalid JSON: ' + e.message);
+                return;
+            }
+            
+            const daysInMonth = getDaysInMonth(year, month);
+            
+            if (!confirm(`This will publish ${daysInMonth} messages (one for each day in ${month}/${year}). Continue?`)) {
+                return;
+            }
+            
+            let successCount = 0;
+            let errorCount = 0;
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                // Clone template and set year, month, day
+                const message = JSON.parse(JSON.stringify(template));
+                message.year = `[${year}]`;
+                message.month = `[${month}]`;
+                message.day = `[${day}]`;
+                if (useCache) message.use_cache = false;
+                
+                const result = await api(`/queues/${encodeURIComponent(queue)}/publish`, {
+                    method: 'POST',
+                    body: JSON.stringify({ message: JSON.stringify(message) })
+                });
+                
+                if (result.success) {
+                    successCount++;
+                } else {
+                    errorCount++;
+                    console.error(`Failed to publish day ${day}:`, result.error);
+                }
+            }
+            
+            alert(`✅ Published ${successCount} messages${errorCount > 0 ? ` (${errorCount} errors)` : ''}`);
+            closeModal('publishModal');
+            loadQueues();
+        }
+        
+        async function publishBulkCollectorYear() {
+            const queue = document.getElementById('publishQueue').value;
+            const messageText = document.getElementById('publishMessage').value;
+            const year = parseInt(document.getElementById('bulkYear').value);
+            const useCache = document.getElementById('useCacheCheckbox').checked;
+            
+            if (!messageText.trim()) {
+                alert('Please enter a message template first');
+                return;
+            }
+            
+            let template;
+            try {
+                template = JSON.parse(messageText);
+            } catch (e) {
+                alert('Invalid JSON: ' + e.message);
+                return;
+            }
+            
+            // Calculate total days in year
+            let totalDays = 0;
+            for (let m = 1; m <= 12; m++) {
+                totalDays += getDaysInMonth(year, m);
+            }
+            
+            if (!confirm(`This will publish ${totalDays} messages (one for each day in ${year}). Continue?`)) {
+                return;
+            }
+            
+            let successCount = 0;
+            let errorCount = 0;
+            
+            for (let month = 1; month <= 12; month++) {
+                const daysInMonth = getDaysInMonth(year, month);
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const message = JSON.parse(JSON.stringify(template));
+                    message.year = `[${year}]`;
+                    message.month = `[${month}]`;
+                    message.day = `[${day}]`;
+                    if (useCache) message.use_cache = false;
+                    
+                    const result = await api(`/queues/${encodeURIComponent(queue)}/publish`, {
+                        method: 'POST',
+                        body: JSON.stringify({ message: JSON.stringify(message) })
+                    });
+                    
+                    if (result.success) {
+                        successCount++;
+                    } else {
+                        errorCount++;
+                        console.error(`Failed to publish ${month}/${day}:`, result.error);
+                    }
+                }
+            }
+            
+            alert(`✅ Published ${successCount} messages for year ${year}${errorCount > 0 ? ` (${errorCount} errors)` : ''}`);
+            closeModal('publishModal');
+            loadQueues();
+        }
+
+        function formatJson() {
+            const textarea = document.getElementById('publishMessage');
+            try {
+                const parsed = JSON.parse(textarea.value);
+                textarea.value = JSON.stringify(parsed, null, 2);
+            } catch (e) {
+                alert('Invalid JSON: ' + e.message);
+            }
+        }
+
+        async function publishMessage() {
+            const queue = document.getElementById('publishQueue').value;
+            let message = document.getElementById('publishMessage').value;
+            const useCache = document.getElementById('useCacheCheckbox').checked;
+            
+            if (!message.trim()) {
+                alert('Please enter a message');
+                return;
+            }
+            
+            // Add use_cache: false if checkbox is checked
+            if (useCache) {
+                try {
+                    const parsed = JSON.parse(message);
+                    parsed.use_cache = false;
+                    message = JSON.stringify(parsed, null, 2);
+                } catch (e) {
+                    alert('Invalid JSON: ' + e.message);
+                    return;
+                }
+            }
+            
+            const result = await api(`/queues/${encodeURIComponent(queue)}/publish`, {
+                method: 'POST',
+                body: JSON.stringify({ message })
+            });
+            
+            if (result.success) {
+                alert('Message published successfully');
+                closeModal('publishModal');
+                loadQueues();
+                if (selectedQueue === queue) loadMessages();
+            } else {
+                alert(`Error: ${result.error}`);
+            }
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+        
+        function openEditMoveModal(index) {
+            document.getElementById('editMoveSource').value = selectedQueue;
+            document.getElementById('editMoveIndex').value = index;
+            
+            // Populate target queue dropdown
+            const targetSelect = document.getElementById('editMoveTarget');
+            targetSelect.innerHTML = queuesData.map(q => 
+                `<option value="${q.name}" ${q.name === selectedQueue ? 'disabled' : ''}>${q.name}</option>`
+            ).join('');
+            
+            // Pre-select retry target if this is an error queue
+            const retryTargets = getRetryTargetQueues(selectedQueue);
+            if (retryTargets.length > 0) {
+                const firstValidTarget = retryTargets.find(t => queuesData.some(q => q.name === t));
+                if (firstValidTarget) {
+                    targetSelect.value = firstValidTarget;
+                }
+            }
+            
+            // Get message body from stored messages and format nicely
+            let messageBody = window.currentMessages && window.currentMessages[index] ? window.currentMessages[index].body : {};
+            // Parse nested JSON strings for better readability
+            messageBody = parseNestedJson(messageBody);
+            const content = JSON.stringify(messageBody, null, 2);
+            document.getElementById('editMoveContent').value = content;
+            
+            document.getElementById('editMoveModal').classList.add('active');
+        }
+        
+        function formatEditMoveJson() {
+            const textarea = document.getElementById('editMoveContent');
+            try {
+                let parsed = JSON.parse(textarea.value);
+                parsed = parseNestedJson(parsed);
+                textarea.value = JSON.stringify(parsed, null, 2);
+            } catch (e) {
+                alert('Invalid JSON: ' + e.message);
+            }
+        }
+        
+        async function submitEditMove() {
+            const source = document.getElementById('editMoveSource').value;
+            const target = document.getElementById('editMoveTarget').value;
+            const index = parseInt(document.getElementById('editMoveIndex').value);
+            const editedBody = document.getElementById('editMoveContent').value;
+            
+            // Validate JSON
+            try {
+                JSON.parse(editedBody);
+            } catch (e) {
+                alert('Invalid JSON: ' + e.message);
+                return;
+            }
+            
+            const result = await api(`/queues/${encodeURIComponent(source)}/requeue`, {
+                method: 'POST',
+                body: JSON.stringify({ target, index, edited_body: editedBody })
+            });
+            
+            if (result.success) {
+                alert(`✅ Message moved to ${target}`);
+                closeModal('editMoveModal');
+                loadQueues();
+                loadMessages();
+            } else {
+                alert(`Error: ${result.error}`);
+            }
+        }
+
+        async function moveMessages() {
+            const source = document.getElementById('moveSource').value;
+            const target = document.getElementById('moveTarget').value;
+            const count = document.getElementById('moveCount').value;
+            
+            const result = await api('/queues/move', {
+                method: 'POST',
+                body: JSON.stringify({ source, target, count: parseInt(count) })
+            });
+            
+            if (result.success) {
+                alert(`Moved ${result.moved} message(s) from ${source} to ${target}`);
+                closeModal('moveModal');
+                loadQueues();
+                loadMessages();
+            } else {
+                alert(`Error: ${result.error}`);
+            }
+        }
+
+        async function requeueMessage(index) {
+            const target = prompt('Enter target queue name:');
+            if (!target) return;
+            
+            const result = await api(`/queues/${encodeURIComponent(selectedQueue)}/requeue`, {
+                method: 'POST',
+                body: JSON.stringify({ target, index })
+            });
+            
+            if (result.success) {
+                alert('Message moved successfully');
+                loadQueues();
+                loadMessages();
+            } else {
+                alert(`Error: ${result.error}`);
+            }
+        }
+
+        async function confirmPurge() {
+            console.log('confirmPurge called, selectedQueue:', selectedQueue);
+            if (!selectedQueue) {
+                alert('Please select a queue first');
+                return;
+            }
+            if (!confirm('Are you sure you want to purge all messages from "' + selectedQueue + '"?')) return;
+            
+            try {
+                const result = await api('/queues/' + encodeURIComponent(selectedQueue) + '/purge', { method: 'POST' });
+                console.log('Purge result:', result);
+                if (result.success) {
+                    alert('Queue purged successfully');
+                    loadQueues();
+                    loadMessages();
+                } else {
+                    alert('Error: ' + (result.error || 'Unknown error'));
+                }
+            } catch (e) {
+                console.error('Purge error:', e);
+                alert('Error: ' + e.message);
+            }
+        }
+
+        async function startContainer() {
+            if (!selectedContainer) {
+                alert('Please select a container first');
+                return;
+            }
+            
+            try {
+                const result = await api('/containers/' + encodeURIComponent(selectedContainer) + '/start', { method: 'POST' });
+                if (result.success) {
+                    alert('Container started');
+                    setTimeout(loadContainers, 1000);
+                } else {
+                    alert('Error: ' + (result.error || 'Unknown error'));
+                }
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+        }
+
+        async function stopContainer() {
+            if (!selectedContainer) {
+                alert('Please select a container first');
+                return;
+            }
+            if (!confirm('Are you sure you want to stop "' + selectedContainer + '"?')) return;
+            
+            try {
+                const result = await api('/containers/' + encodeURIComponent(selectedContainer) + '/stop', { method: 'POST' });
+                if (result.success) {
+                    alert('Container stopped');
+                    setTimeout(loadContainers, 1000);
+                } else {
+                    alert('Error: ' + (result.error || 'Unknown error'));
+                }
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+        }
+
+        async function restartContainer() {
+            if (!selectedContainer) {
+                alert('Please select a container first');
+                return;
+            }
+            if (!confirm('Are you sure you want to restart "' + selectedContainer + '"?')) return;
+            
+            try {
+                const result = await api('/containers/' + encodeURIComponent(selectedContainer) + '/restart', { method: 'POST' });
+                if (result.success) {
+                    alert('Container restarted');
+                    setTimeout(loadContainers, 2000);
+                } else {
+                    alert('Error: ' + (result.error || 'Unknown error'));
+                }
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+        }
+
+        async function rebuildContainer() {
+            if (!selectedContainer) {
+                alert('Please select a container first');
+                return;
+            }
+            if (!confirm('Rebuild "' + selectedContainer + '"? This will rebuild the image and restart the container. This may take a few minutes.')) return;
+            
+            alert('Rebuilding... This may take a few minutes. Please wait.');
+            
+            try {
+                const result = await api('/containers/' + encodeURIComponent(selectedContainer) + '/rebuild', { method: 'POST' });
+                if (result.success) {
+                    alert('Container rebuilt and restarted successfully');
+                    setTimeout(loadContainers, 2000);
+                } else {
+                    alert('Error: ' + (result.error || 'Unknown error'));
+                }
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+        }
+
+        async function restartAllContainers() {
+            if (!confirm('Restart ALL containers? This will briefly interrupt all services.')) return;
+            
+            try {
+                const result = await api('/containers/restart-all', { method: 'POST' });
+                if (result.success) {
+                    alert('All containers restarted successfully');
+                    setTimeout(loadContainers, 2000);
+                } else {
+                    alert('Error: ' + (result.error || 'Unknown error'));
+                }
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+        }
+
+        async function rebuildAllContainers() {
+            if (!confirm('Rebuild ALL containers? This will rebuild all images and restart all services. This may take several minutes.')) return;
+            
+            alert('Rebuilding all containers... This may take several minutes. Please wait.');
+            
+            try {
+                const result = await api('/containers/rebuild-all', { method: 'POST' });
+                if (result.success) {
+                    alert('All containers rebuilt and restarted successfully');
+                    setTimeout(loadContainers, 3000);
+                } else {
+                    alert('Error: ' + (result.error || 'Unknown error'));
+                }
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+        }
+
+        function toggleSidebar(side) {
+            const sidebar = document.getElementById(side === 'left' ? 'leftSidebar' : 'rightSidebar');
+            const toggleBtn = document.querySelector('.sidebar-toggle.' + side);
+            sidebar.classList.toggle('collapsed');
+            if (side === 'left') {
+                toggleBtn.textContent = sidebar.classList.contains('collapsed') ? '▶' : '◀';
+            } else {
+                toggleBtn.textContent = sidebar.classList.contains('collapsed') ? '◀' : '▶';
+            }
+        }
+
+        function toggleGroup(header) {
+            header.classList.toggle('collapsed');
+            const items = header.nextElementSibling;
+            if (items) items.classList.toggle('hidden');
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
+            document.getElementById(tabName + 'Panel').classList.add('active');
+            
+            if (tabName === 'stats') loadStats();
+        }
+
+        function formatJson(obj) {
+            if (typeof obj === 'string') {
+                try {
+                    obj = JSON.parse(obj);
+                } catch (e) {
+                    return escapeHtml(obj);
+                }
+            }
+            // Recursively parse nested JSON strings
+            obj = parseNestedJson(obj);
+            return syntaxHighlight(JSON.stringify(obj, null, 2));
+        }
+
+        function parseNestedJson(obj) {
+            if (typeof obj === 'string') {
+                // Try to parse as JSON first
+                try {
+                    const parsed = JSON.parse(obj);
+                    return parseNestedJson(parsed);
+                } catch (e) {
+                    // Try to parse Python dict format
+                    if (obj.startsWith('{') && obj.endsWith('}')) {
+                        try {
+                            const parsed = parsePythonDict(obj);
+                            if (parsed) return parseNestedJson(parsed);
+                        } catch (e2) {}
+                    }
+                    return obj;
+                }
+            }
+            if (Array.isArray(obj)) {
+                return obj.map(item => parseNestedJson(item));
+            }
+            if (obj && typeof obj === 'object') {
+                const result = {};
+                for (const [key, value] of Object.entries(obj)) {
+                    result[key] = parseNestedJson(value);
+                }
+                return result;
+            }
+            return obj;
+        }
+
+        function parsePythonDict(str) {
+            // Parse Python dict string with mixed quotes
+            const result = {};
+            // Remove outer braces
+            str = str.slice(1, -1).trim();
+            if (!str) return result;
+            
+            // Parse key-value pairs handling nested quotes
+            let i = 0;
+            while (i < str.length) {
+                // Skip whitespace
+                while (i < str.length && /\s/.test(str[i])) i++;
+                if (i >= str.length) break;
+                
+                // Find key (quoted string)
+                const keyQuote = str[i];
+                if (keyQuote !== "'" && keyQuote !== '"') break;
+                i++;
+                let key = '';
+                while (i < str.length && str[i] !== keyQuote) {
+                    if (str[i] === '\\') { key += str[i+1]; i += 2; }
+                    else { key += str[i]; i++; }
+                }
+                i++; // skip closing quote
+                
+                // Skip to colon
+                while (i < str.length && str[i] !== ':') i++;
+                i++; // skip colon
+                
+                // Skip whitespace
+                while (i < str.length && /\s/.test(str[i])) i++;
+                
+                // Find value
+                const valQuote = str[i];
+                if (valQuote === "'" || valQuote === '"') {
+                    i++;
+                    let val = '';
+                    while (i < str.length && str[i] !== valQuote) {
+                        if (str[i] === '\\') { val += str[i] + str[i+1]; i += 2; }
+                        else { val += str[i]; i++; }
+                    }
+                    i++; // skip closing quote
+                    result[key] = val;
+                } else {
+                    // Non-string value
+                    let val = '';
+                    while (i < str.length && str[i] !== ',' && str[i] !== '}') {
+                        val += str[i]; i++;
+                    }
+                    val = val.trim();
+                    if (val === 'None') result[key] = null;
+                    else if (val === 'True') result[key] = true;
+                    else if (val === 'False') result[key] = false;
+                    else result[key] = val;
+                }
+                
+                // Skip to next pair
+                while (i < str.length && str[i] !== ',') i++;
+                i++; // skip comma
+            }
+            return Object.keys(result).length > 0 ? result : null;
+        }
+
+        function syntaxHighlight(json) {
+            // Escape HTML first
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            
+            // Apply syntax highlighting
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, match => {
+                let cls = 'json-number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'json-key';
+                        // Remove quotes from keys for cleaner look
+                        match = match.replace(/"/g, '').replace(/:$/, ':');
+                        return `<span class="${cls}">"${match.slice(0, -1)}"</span>:`;
+                    } else {
+                        cls = 'json-string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'json-boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'json-null';
+                }
+                return `<span class="${cls}">${match}</span>`;
+            });
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        async function refreshAll(force = false) {
+            // Skip auto-refresh if paused (unless forced)
+            if (autoRefreshPaused && !force) {
+                return;
+            }
+            await checkApiStatus();
+            await loadQueues();
+            await loadContainers();
+            if (selectedQueue) loadMessages();
+            if (selectedContainer) loadLogs();
+        }
+
+        // Initial load
+        refreshAll(true);
+        
+        // Auto-refresh every 30 seconds (respects pause state)
+        setInterval(refreshAll, 30000);
+    </script>
+</body>
+</html>

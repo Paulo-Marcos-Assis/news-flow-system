@@ -1,0 +1,9 @@
+unidade_gestora:
+  cod_ug: int
+  nome_ug: string
+  cnpj: string|null
+
+processo_licitatorio:
+  numero_processo_licitatorio: int
+  numero_edital: string
+  valor_total_previsto: decimal|null

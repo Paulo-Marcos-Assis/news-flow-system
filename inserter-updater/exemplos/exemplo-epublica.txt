@@ -1,0 +1,344 @@
+
+[{
+  "unidade_gestora": [
+    {
+      "cod_ug": 13,
+      "nome_ug": "Fundo Municipal de Turismo"
+    }
+  ],
+  "item_licitacao": [
+    {
+      "numero_sequencial_item": 1,
+      "descricao_item_licitacao": "LOCAÇÃO DE ESTANDE",
+      "qtd_item_licitacao": 1,
+      "descricao_unidade_medida": "UNIDADE",
+      "valor_estimado_item": 189800,
+      "situacao_item": "Homologado"
+    }
+  ],
+  "cotacao": [
+    {
+      "numero_item": 1,
+      "fornecedor": "TUDO BEM O.E.I. AGENCIA DE VIAGENS LTDA - EPP",
+      "qt_item_cotado": 1,
+      "valor_cotado": 189800,
+      "vencedor": true,
+      "classificacao": 1
+    }
+  ],
+  "documento": [
+    {
+      "tipo_documento": "EDITAL INX",
+      "data_emissao": "2024-09-24",
+      "local_acesso_arquivo": null
+    },
+    {
+      "tipo_documento": "Razão de escolha",
+      "data_emissao": "2024-09-24",
+      "local_acesso_arquivo": null
+    },
+    {
+      "tipo_documento": "Autorização da autoridade",
+      "data_emissao": "2024-09-24",
+      "local_acesso_arquivo": null
+    },
+    {
+      "tipo_documento": "Formalização",
+      "data_emissao": "2024-09-24",
+      "local_acesso_arquivo": null
+    },
+    {
+      "tipo_documento": "Habilitação",
+      "data_emissao": "2024-09-24",
+      "local_acesso_arquivo": null
+    },
+    {
+      "tipo_documento": "Preço",
+      "data_emissao": "2024-09-24",
+      "local_acesso_arquivo": null
+    },
+    {
+      "tipo_documento": "Publicação",
+      "data_emissao": "2024-09-24",
+      "local_acesso_arquivo": null
+    },
+    {
+      "tipo_documento": "Inex",
+      "data_emissao": "2024-09-24",
+      "local_acesso_arquivo": null
+    }
+  ],
+  "pessoa": {
+    "nome": "LISANE DADAM TORTATO DE OLIVEIRA"
+  },
+  "processo_licitatorio": {
+    "data_abertura_certame": null,
+    "descricao_objeto": "Despesa referente a inexigibilidade licitatória para locação de estande na FIT - FEIRA INTERNACIONAL DE TURISMO DE BUENOS AIRES, que acontecerá de 28 de setembro a 01 de outubro de 2024, na Argentina.",
+    "numero_processo_licitatorio": "030/2024 - IL"
+  },
+  "modalidade_licitacao": {
+    "descricao": "Inexigibilidade"
+  },
+  "raw_data_id": "68fa9c3ad82e74cf5d3158f4",
+  "data_source": "EPUBLICA"
+},
+{
+  "unidade_gestora": [
+    {
+      "cod_ug": 1,
+      "nome_ug": "Prefeitura Municipal de Balneário Camboriú"
+    }
+  ],
+  "item_licitacao": [
+    {
+      "numero_sequencial_item": 1,
+      "descricao_item_licitacao": "locação de van 15 lugares",
+      "qtd_item_licitacao": 1,
+      "descricao_unidade_medida": "SERVICO",
+      "valor_estimado_item": 15500,
+      "situacao_item": "Homologado"
+    }
+  ],
+  "cotacao": [
+    {
+      "numero_item": 1,
+      "fornecedor": "SAN RAFAEL TUR EXECUTIVE LTDA",
+      "qt_item_cotado": 1,
+      "valor_cotado": 15500,
+      "vencedor": true,
+      "classificacao": 1
+    }
+  ],
+  "documento": [
+    {
+      "tipo_documento": "Edital",
+      "data_emissao": "2024-09-24",
+      "local_acesso_arquivo": null
+    },
+    {
+      "tipo_documento": "Razão de escolha do contratado",
+      "data_emissao": "2024-09-24",
+      "local_acesso_arquivo": null
+    },
+    {
+      "tipo_documento": "Autorização da autoridade competente",
+      "data_emissao": "2024-09-24",
+      "local_acesso_arquivo": null
+    }
+  ],
+  "pessoa": {
+    "nome": "LISANE DADAM TORTATO DE OLIVEIRA"
+  },
+  "processo_licitatorio": {
+    "data_abertura_certame": null,
+    "descricao_objeto": "Contratação de serviço de transporte em van executiva, 15 lugares, para a participação das crianças do CEAC no Festival de Teatro \"Vamos que venimos\" na Cidade de Buenos Aires, entre os dias 30/09/2024 a 06/10/2024.",
+    "numero_processo_licitatorio": "018/2024 - DL"
+  },
+  "modalidade_licitacao": {
+    "descricao": "Dispensa"
+  },
+  "raw_data_id": "68fa9f22b889a5f3e75c6a84",
+  "data_source": "EPUBLICA"
+},
+{
+  "unidade_gestora": [
+    {
+      "cod_ug": 16,
+      "nome_ug": "Câmara de Vereadores de Balneário Camboriú"
+    }
+  ],
+  "item_licitacao": [
+    {
+      "numero_sequencial_item": 1,
+      "descricao_item_licitacao": "REGUA REG IM VCA COM FADER MAGNETICO ",
+      "qtd_item_licitacao": 9,
+      "descricao_unidade_medida": "UNIDADE",
+      "valor_estimado_item": 775,
+      "situacao_item": "Homologado"
+    },
+    {
+      "numero_sequencial_item": 2,
+      "descricao_item_licitacao": "REGUA REG IM",
+      "qtd_item_licitacao": 2,
+      "descricao_unidade_medida": "UNIDADE",
+      "valor_estimado_item": 780,
+      "situacao_item": "Homologado"
+    },
+    {
+      "numero_sequencial_item": 3,
+      "descricao_item_licitacao": "REGUA REG OM ",
+      "qtd_item_licitacao": 1,
+      "descricao_unidade_medida": "UNIDADE",
+      "valor_estimado_item": 700,
+      "situacao_item": "Homologado"
+    },
+    {
+      "numero_sequencial_item": 4,
+      "descricao_item_licitacao": "FADER COM BASE PCI IM ",
+      "qtd_item_licitacao": 10,
+      "descricao_unidade_medida": "UNIDADE",
+      "valor_estimado_item": 193,
+      "situacao_item": "Homologado"
+    },
+    {
+      "numero_sequencial_item": 5,
+      "descricao_item_licitacao": "POTENCIOMETRO 18MM DUPL B10 10KR",
+      "qtd_item_licitacao": 5,
+      "descricao_unidade_medida": "UNIDADE",
+      "valor_estimado_item": 25,
+      "situacao_item": "Homologado"
+    },
+    {
+      "numero_sequencial_item": 6,
+      "descricao_item_licitacao": "KNOB TECLA QUADRADA LONGO HS VERMELHO 5177 (3.3 x 3.3)",
+      "qtd_item_licitacao": 15,
+      "descricao_unidade_medida": "UNIDADE",
+      "valor_estimado_item": 5,
+      "situacao_item": "Homologado"
+    },
+    {
+      "numero_sequencial_item": 7,
+      "descricao_item_licitacao": "KNOB TECLA QUADRADA LONGO HS PRETO 5186 (3.3 x 3.3) ",
+      "qtd_item_licitacao": 15,
+      "descricao_unidade_medida": "UNIDADE",
+      "valor_estimado_item": 5,
+      "situacao_item": "Homologado"
+    },
+    {
+      "numero_sequencial_item": 8,
+      "descricao_item_licitacao": "MICROINTERRUPTOR PUSHBUTTON PS2AF02 C/ TRAVA ",
+      "qtd_item_licitacao": 5,
+      "descricao_unidade_medida": "UNIDADE",
+      "valor_estimado_item": 15,
+      "situacao_item": "Homologado"
+    },
+    {
+      "numero_sequencial_item": 9,
+      "descricao_item_licitacao": "MICROINTERRUPTOR PUSHBUTTON PS2AF02 PS2AF03 (6 TERM) C/TRAVA",
+      "qtd_item_licitacao": 30,
+      "descricao_unidade_medida": "UNIDADE",
+      "valor_estimado_item": 10,
+      "situacao_item": "Homologado"
+    },
+    {
+      "numero_sequencial_item": 10,
+      "descricao_item_licitacao": "KNOB TECLA QUADRADA LONGO HS AZUL 5171 (3.3 x 3.3) ",
+      "qtd_item_licitacao": 5,
+      "descricao_unidade_medida": "UNIDADE",
+      "valor_estimado_item": 5,
+      "situacao_item": "Homologado"
+    }
+  ],
+  "cotacao": [
+    {
+      "numero_item": 1,
+      "fornecedor": "AUAD CORREA EQUIPAMENTOS ELETRONICOS LTDA",
+      "qt_item_cotado": 9,
+      "valor_cotado": 775,
+      "vencedor": true,
+      "classificacao": 1
+    },
+    {
+      "numero_item": 2,
+      "fornecedor": "AUAD CORREA EQUIPAMENTOS ELETRONICOS LTDA",
+      "qt_item_cotado": 2,
+      "valor_cotado": 780,
+      "vencedor": true,
+      "classificacao": 1
+    },
+    {
+      "numero_item": 3,
+      "fornecedor": "AUAD CORREA EQUIPAMENTOS ELETRONICOS LTDA",
+      "qt_item_cotado": 1,
+      "valor_cotado": 700,
+      "vencedor": true,
+      "classificacao": 1
+    },
+    {
+      "numero_item": 4,
+      "fornecedor": "AUAD CORREA EQUIPAMENTOS ELETRONICOS LTDA",
+      "qt_item_cotado": 10,
+      "valor_cotado": 193,
+      "vencedor": true,
+      "classificacao": 1
+    },
+    {
+      "numero_item": 5,
+      "fornecedor": "AUAD CORREA EQUIPAMENTOS ELETRONICOS LTDA",
+      "qt_item_cotado": 5,
+      "valor_cotado": 25,
+      "vencedor": true,
+      "classificacao": 1
+    },
+    {
+      "numero_item": 6,
+      "fornecedor": "AUAD CORREA EQUIPAMENTOS ELETRONICOS LTDA",
+      "qt_item_cotado": 15,
+      "valor_cotado": 5,
+      "vencedor": true,
+      "classificacao": 1
+    },
+    {
+      "numero_item": 7,
+      "fornecedor": "AUAD CORREA EQUIPAMENTOS ELETRONICOS LTDA",
+      "qt_item_cotado": 15,
+      "valor_cotado": 5,
+      "vencedor": true,
+      "classificacao": 1
+    },
+    {
+      "numero_item": 8,
+      "fornecedor": "AUAD CORREA EQUIPAMENTOS ELETRONICOS LTDA",
+      "qt_item_cotado": 5,
+      "valor_cotado": 15,
+      "vencedor": true,
+      "classificacao": 1
+    },
+    {
+      "numero_item": 9,
+      "fornecedor": "AUAD CORREA EQUIPAMENTOS ELETRONICOS LTDA",
+      "qt_item_cotado": 30,
+      "valor_cotado": 10,
+      "vencedor": true,
+      "classificacao": 1
+    },
+    {
+      "numero_item": 10,
+      "fornecedor": "AUAD CORREA EQUIPAMENTOS ELETRONICOS LTDA",
+      "qt_item_cotado": 5,
+      "valor_cotado": 5,
+      "vencedor": true,
+      "classificacao": 1
+    }
+  ],
+  "documento": [
+    {
+      "tipo_documento": "RAZÃO DO CONTRATADO IL7/2024",
+      "data_emissao": "2024-09-24",
+      "local_acesso_arquivo": null
+    },
+    {
+      "tipo_documento": "AUTORIZAÇÃO IL7/2024",
+      "data_emissao": "2024-09-24",
+      "local_acesso_arquivo": null
+    },
+    {
+      "tipo_documento": "Autorização Inexigibilidade 007.2024",
+      "data_emissao": "2024-09-24",
+      "local_acesso_arquivo": null
+    }
+  ],
+  "pessoa": {
+    "nome": "LUIZ ALVES NUNES NETTO"
+  },
+  "processo_licitatorio": {
+    "data_abertura_certame": null,
+    "descricao_objeto": "A AQUISIÇÃO PEÇAS DE REPOSIÇÃO E ESTOQUE PARA CONSOLE DE ÁUDIO DA RÁDIO CÂMARA PARA ATENDER AS DEMANDAS DA CÂMARA DE VEREADORES DE BALNEÁRIO CAMBORIÚ.",
+    "numero_processo_licitatorio": "IL7/2024"
+  },
+  "modalidade_licitacao": {
+    "descricao": "Inexigibilidade"
+  },
+  "raw_data_id": "68fa9f22b889a5f3e75c6a86",
+  "data_source": "EPUBLICA"
+}]

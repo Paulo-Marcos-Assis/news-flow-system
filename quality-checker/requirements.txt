@@ -1,0 +1,9 @@
+pika
+minio
+requests
+python-dateutil
+rapidfuzz
+sentry_sdk==0.10.2
+validate-docbr
+pymongo
+psycopg2-binary

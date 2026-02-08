@@ -1,0 +1,8 @@
+python-dotenv
+s3fs
+pika
+Minio
+requests
+bs4
+sentry_sdk==0.10.2
+pymongo

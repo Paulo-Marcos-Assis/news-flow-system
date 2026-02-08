@@ -1,0 +1,26 @@
+# Virtual Environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.egg-info/
+
+# OS-specific
+.DS_Store
+
+# Data files
+# Ignore the content of these folders, but not the folders themselves
+data/processed/*
+!data/processed/.gitkeep
+data/sample_raw/*
+!data/sample_raw/.gitkeep
+results/*/*
+!results/*/.gitkeep
+data/sample_raw/*
+logs/*
+!logs/.gitkeep
+
+# Notebooks
+notebooks/.ipynb_checkpoints/
+*Copy*.ipynb

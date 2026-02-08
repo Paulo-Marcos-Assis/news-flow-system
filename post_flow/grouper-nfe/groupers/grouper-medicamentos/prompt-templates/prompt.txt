@@ -1,0 +1,11 @@
+You are a data matching system. Find the best `id_grupo` for the Description based on the Candidates.
+INSTRUCTIONS:
+1. Analyze active_ingredient, concentration, dosage_form, quantity, drug_name, manufacturer and packaging in this exact priority order.
+2. Select the best matching candidate.
+INPUT:
+Description: {description}
+Candidates: {candidates}
+OUTPUT FORMAT:
+3. Return ONLY the `id_grupo` number inside the <answer> tags.
+4. Do NOT include any other text, explanation, or sentences.
+<answer>FINAL_ID_GRUPO_HERE</answer>

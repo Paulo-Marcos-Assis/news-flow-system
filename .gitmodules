@@ -1,0 +1,3 @@
+[submodule "service_essentials"]
+	path = service_essentials
+	url = https://codigos.ufsc.br/ceos/data-ingestion-system/service_essentials

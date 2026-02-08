@@ -1,0 +1,7 @@
+# requirements.txt
+pika
+minio
+requests
+sqlalchemy
+psycopg2-binary
+sentry_sdk==0.10.2

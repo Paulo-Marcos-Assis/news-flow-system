@@ -1,0 +1,9 @@
+processo_licitatorio->item_licitacao->pessoa->cotacao
+
+cotacao tem chave estrangeira com item_licitacao e pessoa
+
+item_licitacao tem chave estrangeira com processo_licitatorio
+
+Ou seja, processo_licitatorio tem muitos item_licitacao, item_licitacao tem muitas cotacao, cada cotacao tem uma pessoa.
+
+A ideia seria os dados internos se referirem aos externos, para passar as chaves estrangeiras. Isso acontece pois tem casos, como esse, que uma cotacao tem uma pessoa especifica, mas ao todo vão ter muitas pessoas.

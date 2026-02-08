@@ -1,0 +1,15 @@
+{
+    "portals": [
+        "ndmais",
+        "nsc",
+        "jornalconexao",
+        "olharsc",
+        "agoralaguna",
+        "ocpnews",
+        "jornalsulbrasil",
+        "iclnoticias",
+        "g1sc"
+    ],
+    "entity_type": "noticias_sc",
+    "specific_date": null
+}

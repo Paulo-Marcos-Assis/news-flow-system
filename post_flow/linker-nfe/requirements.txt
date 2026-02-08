@@ -1,0 +1,7 @@
+# requirements.txt
+pika
+sqlalchemy
+psycopg2-binary
+sentry-sdk
+minio
+pandas

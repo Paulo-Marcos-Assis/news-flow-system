@@ -1,0 +1,18 @@
+ollama:
+  host: "https://ollama.ceos.ufsc.br"
+
+prompt:
+  template_path: "prompt_templates/prompt.txt"
+
+solr:
+  solr_url: "http://solr:RuleBasedAuthorizationPlugin@solr.ceos.ufsc.br/solr/medicamentos"
+
+sparql:
+  sparql_endpoint: "https://ontop.ceos.ufsc.br/sparql"
+
+postgres:
+  db_connection_string: "postgresql://p.h.azevedo:ph4z3ved0@150.162.7.40:5433/homologacao"
+
+
+
+  

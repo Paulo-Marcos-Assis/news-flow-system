@@ -1,0 +1,24 @@
+[
+  {
+     "item_nfe_classificacao_produto_servico":{
+      "id_item_nfe": 844321,
+      "id_classificacao_produto_servico": 1
+    },
+  "data_source": "NFE"
+  },
+  {
+     "item_nfe_classificacao_produto_servico":{
+      "id_item_nfe": 844322,
+      "id_classificacao_produto_servico": 1
+    },
+  "data_source": "NFE"
+  },
+  {
+     "item_nfe_classificacao_produto_servico":{
+      "id_item_nfe": 844323,
+      "id_classificacao_produto_servico": 1
+    },
+  "data_source": "NFE"
+  }
+]
+
