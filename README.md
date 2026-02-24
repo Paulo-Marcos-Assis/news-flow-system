@@ -21,15 +21,6 @@ Ao parar o main-server, os bancos de dados são mantidos. É importante não for
 
 O banco PostgreSQL é inicializado automaticamente com o schema completo através do arquivo `service_essentials/postgres_manager/seed.sql`.
 
-**Conexão via pgAdmin:**
-1. Acesse `http://localhost:5050`
-Adicione um novo servidor:
-   - **Nome**: Local PostgreSQL (ou qualquer nome)
-   - **Host**: `postgresql`
-   - **Port**: `5432`
-   - **Database**: `local`
-   - **Username**: `admin`
-   - **Password**: `admin`
 
 **Conexão via terminal:**
 ```bash
