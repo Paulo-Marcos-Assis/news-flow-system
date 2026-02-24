@@ -1,0 +1,64 @@
+# Sistema operacional
+.DS_Store
+Thumbs.db
+data/
+# Logs
+logs/*
+test/*
+
+# Arquivos temporários
+*.tmp
+*.swp
+*.swo
+
+# Diretórios específicos do IDE/editor
+.vscode/
+.idea/
+*.iml
+teste.py
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+
+# Arquivos de configuração sensíveis
+venv/
+.env
+.venv
+*.local
+*.key
+*.pem
+credentials.json
+
+# Arquivos JSON já coletados pelo Jonata
+ndmais_articles/
+ndmais_articles/*
+nsctotal_articles/
+nsctotal_articles/*
+
+dataset_esfinge/
+
+# Pasta .PAULO - será em repositório separado
+.PAULO/
+
+# Arquivos grandes de dados
+*.csv
+*.json
+!crawler_configs.json
+!noticias.json
+!package.json
+!package-lock.json
+
+# Logs específicos
+collector/noticias/logs/
+processor/noticias/logs/
+*.log
+
+# Modelos grandes de ML
+*.safetensors
+*.bin
+*.h5
+*.onnx
+processor/noticias/classifier/bert_embeddings/

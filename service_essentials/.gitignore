@@ -1,0 +1,29 @@
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/*
+
+# Arquivos temporários
+*.tmp
+*.swp
+*.swo
+
+# Diretórios específicos do IDE/editor
+.vscode/
+.idea/
+*.iml
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+
+# Arquivos de configuração sensíveis
+.env
+*.local
+
+# Mock Data - specific to each repository
+mock_input_output/mock_data.json

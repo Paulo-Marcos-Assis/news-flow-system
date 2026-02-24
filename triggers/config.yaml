@@ -1,0 +1,181 @@
+# OliveTin configuration for CEOS Project Triggers
+# This file defines actions that can be executed from the OliveTin web UI.
+# Each action corresponds to a trigger script in the /triggers directory.
+# Arguments are used to dynamically create JSON configuration files for the scripts.
+
+core:
+  title: "CEOS - Disparo de Gatilhos de Coleta"
+
+actions:
+  - title: "DOM: Disparar Coleta por Período"
+    description: "Dados do Diário Oficial dos Municípios (DOM). Especifique o período desejado."
+    icon: "📅" # Using a relevant icon
+    group: "Disparo de Coletas"
+    shell: |
+      set -e
+      echo "Gerando config_dates.json para o DOM..."
+      echo "{\"start_date\": \"{{ start_date }}\", \"end_date\": \"{{ end_date }}\"}" > config_dates.json
+      echo "Executando trigger-dom.py..."
+      python trigger-dom.py
+    arguments:
+      - name: "start_date"
+        label: "Data de Início"
+        description: "Formato: dd/mm/aaaa"
+        default: "01/01/2024"
+      - name: "end_date"
+        label: "Data de Fim"
+        description: "Formato: dd/mm/aaaa"
+        default: "01/01/2024"
+
+  # --- Trigger for e-Publica ---
+  - title: "e-Publica: Disparar Coleta"
+    description: "Dados do portal e-Publica. Especifique período, prefeituras e endpoints."
+    icon: "☁️"
+    group: "Disparo de Coletas"
+    shell: |
+      set -e
+      echo "Gerando configEpublica.json..."
+      # Convert comma-separated strings to a JSON array of strings
+      ENDPOINTS_JSON="[\"$(echo '{{ endpoints }}' | sed 's/, */","/g')\"]"
+      PREFEITURAS_JSON="[\"$(echo '{{ prefeituras }}' | sed 's/, */","/g')\"]"
+      
+      # Handle 'all' case (which should be a simple string in the array)
+      if [ "{{ endpoints }}" = "all" ]; then ENDPOINTS_JSON='["all"]'; fi
+      if [ "{{ prefeituras }}" = "all" ]; then PREFEITURAS_JSON='["all"]'; fi
+
+      echo "{\"data_inicial\": \"{{ data_inicial }}\", \"data_final\": \"{{ data_final }}\", \"endpoint\": ${ENDPOINTS_JSON}, \"prefeituras\": ${PREFEITURAS_JSON}}" > configEpublica.json
+      echo "Executando trigger-epublica.py..."
+      python trigger-epublica.py
+    arguments:
+      - name: "data_inicial"
+        label: "Data de Início"
+        description: "Formato: dd-mm-aaaa"
+        default: "24-09-2024"
+      - name: "data_final"
+        label: "Data de Fim"
+        description: "Formato: dd-mm-aaaa"
+        default: "24-09-2024"
+      - name: "endpoints"
+        label: "Endpoints"
+        description: "Lista separada por vírgulas (ex: licitacao,contrato) ou 'all'."
+        default: "licitacao"
+      - name: "prefeituras"
+        label: "Prefeituras"
+        description: "Lista separada por vírgulas (ex: chapeco,florianopolis) ou 'all'."
+        default: "balneario_camboriu"
+
+  # --- Trigger for e-Sfinge ---
+  - title: "e-Sfinge: Disparar Coleta"
+    description: "Dados do e-Sfinge. Especifique ano, tipos de entidade e caminho dos dados."
+    icon: "🗄️"
+    group: "Disparo de Coletas"
+    shell: |
+      set -e
+      echo "Gerando esfinge.json..."
+      # Convert comma-separated strings to JSON arrays
+      YEARS_JSON="[{{ years }}]"
+      DATAPATH_JSON="[\"$(echo '{{ data_path }}' | sed 's/, */","/g')\"]"
+      ENTITIES_JSON="[\"$(echo '{{ entity_types }}' | sed 's/, */","/g')\"]"
+
+      if [ "{{ entity_types }}" = "all" ]; then ENTITIES_JSON='["all"]'; fi
+      if [ "{{ entity_types }}" = "aux" ]; then ENTITIES_JSON='["aux"]'; fi
+
+      echo "{\"year\": ${YEARS_JSON}, \"data_path\": ${DATAPATH_JSON}, \"entity_types\": ${ENTITIES_JSON}}" > esfinge.json
+      echo "Executando trigger-esfinge.py..."
+      python trigger-esfinge.py
+    arguments:
+      - name: "years"
+        label: "Ano(s)"
+        description: "Lista de anos separados por vírgula (ex: 2021,2022)."
+        default: "2021"
+      - name: "data_path"
+        label: "Caminho dos Dados"
+        description: "Caminho para o dataset."
+        default: "dataset_esfinge/geral/dataset_main"
+      - name: "entity_types"
+        label: "Tipos de Entidade"
+        description: "Lista separada por vírgulas (ex: processo_licitatorio,empenho), 'all' ou 'aux'."
+        default: "processo_licitatorio,empenho,liquidacao"
+
+  # --- Trigger for Notas Fiscais ---
+  - title: "Notas Fiscais: Disparar Coleta"
+    description: "Notas Fiscais por ano, mês e dia."
+    icon: "🧾"
+    group: "Disparo de Coletas"
+    shell: |
+      set -e
+      echo "Gerando notas.json..."
+      # Build JSON, handling optional day list
+      DAY_JSON=""
+      if [ -n "{{ days }}" ]; then
+        DAY_JSON=",\"day\": [{{ days }}]"
+      fi
+      echo "{\"year\": [{{ years }}], \"month\": [{{ months }}]${DAY_JSON}}" > notas.json
+      echo "Executando trigger-notas.py..."
+      python trigger-notas.py
+    arguments:
+      - name: "years"
+        label: "Ano(s)"
+        description: "Lista de anos separados por vírgula (ex: 2022,2023)."
+        default: "2020"
+      - name: "months"
+        label: "Mês(es)"
+        description: "Lista de meses separados por vírgula (ex: 1,2,12)."
+        default: "1,2,3,4,5,6,7,8,9,10,11,12"
+      - name: "days"
+        label: "Dia(s) (Opcional)"
+        description: "Opcional. Lista de dias separados por vírgula. Se vazio, coleta todos os dias do(s) mes(es)."
+        default: ""
+
+  # --- Trigger for Notícias ---
+  - title: "Notícias: Disparar Coleta"
+    description: "Notícias de portais específicos."
+    icon: "📰"
+    group: "Disparo de Coletas"
+    shell: |
+      set -e
+      echo "Gerando noticias.json..."
+      PORTALS_JSON="[\"$(echo '{{ portals }}' | sed 's/, */","/g')\"]"
+      
+      # Handle optional specific_date
+      DATE_JSON=""
+      if [ -n "{{ specific_date }}" ]; then
+        DATE_JSON=",\"specific_date\": \"{{ specific_date }}\""
+      fi
+      
+      echo "{\"portals\": ${PORTALS_JSON}, \"entity_type\": \"noticias_geral\"${DATE_JSON}}" > noticias.json
+      echo "Executando trigger-noticias.py..."
+      python trigger-noticias.py
+    arguments:
+      - name: "portals"
+        label: "Portais"
+        description: "Lista de portais separados por vírgula (ex: ndmais,nsc)."
+        default: "ndmais,nsc"
+      - name: "specific_date"
+        label: "Data Específica (Opcional)"
+        description: "Formato dd/mm/aaaa. Se vazio, usa o dia anterior (D-1)."
+        default: ""
+
+  # --- Trigger for PNCP ---
+  - title: "PNCP: Disparar Coleta Automática"
+    description: "Dados do PNCP (Portal Nacional de Contratações Públicas) para o dia anterior (D-1). Não requer parâmetros."
+    icon: "📄"
+    group: "Disparo de Coletas"
+    shell: "python trigger-pncp.py"
+
+  # --- Trigger for Teste ---
+  - title: "Teste: Disparar Gatilho de Teste"
+    description: "Dispara um gatilho de teste para uma tabela específica."
+    icon: "🐛"
+    group: "Gatilhos de Teste"
+    shell: |
+      set -e
+      echo "Gerando config_teste.json..."
+      echo "{\"tabela\": \"{{ tabela }}\"}" > config_teste.json
+      echo "Executando trigger-teste.py..."
+      python trigger-teste.py
+    arguments:
+      - name: "tabela"
+        label: "Nome da Tabela"
+        description: "O nome da tabela para o fluxo de teste."
+        default: "universidade"

@@ -1,0 +1,956 @@
+{
+  "ndmais": {
+    "base_url": "https://ndmais.com.br/ultimas/pagina/{}",
+    "min_page": 1,
+    "max_page": 1000,
+    "link_finder": {
+      "tag": "a",
+      "attrs": {
+        "class": "title-text"
+      }
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1"
+      },
+      "subtitle": {
+        "tag": "p",
+        "attrs": {
+          "class": "subtitle"
+        }
+      },
+      "content": {
+        "tag": "div",
+        "attrs": {
+          "class": "entry-content"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time",
+          "attrs": {
+            "class": "dt-published"
+          },
+          "attribute": "datetime"
+        },
+        {
+          "tag": "span",
+          "attrs": {
+            "class": "metadata date"
+          }
+        }
+      ]
+    },
+    "date_parser": "iso_or_portuguese"
+  },
+  "nsc_lote1": {
+    "base_url": "https://www.nsctotal.com.br/ultimas-noticias/page/{}",
+    "min_page": 1,
+    "max_page": 500,
+    "link_finder": {
+      "tag": "a",
+      "href_prefixes": [
+        "https://www.nsctotal.com.br/noticias/",
+        "https://www.nsctotal.com.br/colunistas/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1"
+      },
+      "subtitle": {
+        "tag": "div",
+        "attrs": {
+          "class": "excerpt"
+        }
+      },
+      "content": {
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time",
+          "attribute": "datetime"
+        },
+        {
+          "tag": "span",
+          "attrs": {
+            "class": "date"
+          }
+        },
+        {
+          "tag": "div",
+          "attrs": {
+            "class": "date"
+          }
+        },
+        {
+          "tag": "div",
+          "attrs": {
+            "class": "date mb-3"
+          }
+        },
+        {
+          "tag": "p",
+          "attrs": {
+            "class": "date mb-3"
+          }
+        }
+      ]
+    },
+    "date_parser": "dmy"
+  },
+  "nsc_lote2": {
+    "base_url": "https://www.nsctotal.com.br/ultimas-noticias/page/{}",
+    "min_page": 501,
+    "max_page": 1000,
+    "link_finder": {
+      "tag": "a",
+      "href_prefixes": [
+        "https://www.nsctotal.com.br/noticias/",
+        "https://www.nsctotal.com.br/colunistas/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1"
+      },
+      "subtitle": {
+        "tag": "div",
+        "attrs": {
+          "class": "excerpt"
+        }
+      },
+      "content": {
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time",
+          "attribute": "datetime"
+        },
+        {
+          "tag": "span",
+          "attrs": {
+            "class": "date"
+          }
+        },
+        {
+          "tag": "div",
+          "attrs": {
+            "class": "date"
+          }
+        },
+        {
+          "tag": "div",
+          "attrs": {
+            "class": "date mb-3"
+          }
+        },
+        {
+          "tag": "p",
+          "attrs": {
+            "class": "date mb-3"
+          }
+        }
+      ]
+    },
+    "date_parser": "dmy"
+  },
+  "nsc_lote3": {
+    "base_url": "https://www.nsctotal.com.br/ultimas-noticias/page/{}",
+    "min_page": 1001,
+    "max_page": 1500,
+    "link_finder": {
+      "tag": "a",
+      "href_prefixes": [
+        "https://www.nsctotal.com.br/noticias/",
+        "https://www.nsctotal.com.br/colunistas/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1"
+      },
+      "subtitle": {
+        "tag": "div",
+        "attrs": {
+          "class": "excerpt"
+        }
+      },
+      "content": {
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time",
+          "attribute": "datetime"
+        },
+        {
+          "tag": "span",
+          "attrs": {
+            "class": "date"
+          }
+        },
+        {
+          "tag": "div",
+          "attrs": {
+            "class": "date"
+          }
+        },
+        {
+          "tag": "div",
+          "attrs": {
+            "class": "date mb-3"
+          }
+        },
+        {
+          "tag": "p",
+          "attrs": {
+            "class": "date mb-3"
+          }
+        }
+      ]
+    },
+    "date_parser": "dmy"
+  },
+  "nsc_lote4": {
+    "base_url": "https://www.nsctotal.com.br/ultimas-noticias/page/{}",
+    "min_page": 1501,
+    "max_page": 2000,
+    "link_finder": {
+      "tag": "a",
+      "href_prefixes": [
+        "https://www.nsctotal.com.br/noticias/",
+        "https://www.nsctotal.com.br/colunistas/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1"
+      },
+      "subtitle": {
+        "tag": "div",
+        "attrs": {
+          "class": "excerpt"
+        }
+      },
+      "content": {
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time",
+          "attribute": "datetime"
+        },
+        {
+          "tag": "span",
+          "attrs": {
+            "class": "date"
+          }
+        },
+        {
+          "tag": "div",
+          "attrs": {
+            "class": "date"
+          }
+        },
+        {
+          "tag": "div",
+          "attrs": {
+            "class": "date mb-3"
+          }
+        },
+        {
+          "tag": "p",
+          "attrs": {
+            "class": "date mb-3"
+          }
+        }
+      ]
+    },
+    "date_parser": "dmy"
+  },
+  "jornalconexao": {
+    "base_url": "https://jornalconexao.com.br/ultimas-noticias/pagina/{}",
+    "min_page": 1,
+    "max_page": 500,
+    "link_finder": {
+      "tag": "a",
+      "attrs": {
+        "class": "listagem-interna"
+      }
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1"
+      },
+      "subtitle": {
+        "tag": "h2"
+      },
+      "content": {
+        "tag": "div",
+        "attrs": {
+          "class": "texto"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "div",
+          "attrs": {
+            "class": "data-post"
+          }
+        }
+      ]
+    },
+    "date_parser": "other_format"
+  },
+  "ajnoticias": {
+    "base_url": "https://ajnoticias.com.br/ultimas-noticias/pagina/{}",
+    "min_page": 1,
+    "max_page": 500,
+    "link_finder": {
+      "tag": "a",
+      "href_prefixes": [
+        "https://ajnoticias.com.br/noticia/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1",
+        "attrs": {
+          "class": "titulo-post"
+        }
+      },
+      "content": {
+        "tag": "div",
+        "attrs": {
+          "class": "env"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "span",
+          "attrs": {
+            "class": "data-lista-home"
+          }
+        }
+      ]
+    },
+    "date_parser": "other_format"
+  },
+  "blogdoprisco": {
+    "base_url": "https://www.blogdoprisco.com.br/noticias/page/{}/",
+    "link_finder": {
+      "tag": "h2",
+      "href_prefixes": [
+        "https://www.blogdoprisco.com.br/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1",
+        "attrs": {
+          "class": "entry-title"
+        }
+      },
+      "content": {
+        "tag": "article",
+        "attrs": {
+          "class": "penci-single-artcontent"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time",
+          "attrs": {
+            "class": "entry-date"
+          },
+          "attribute": "datetime"
+        }
+      ]
+    },
+    "date_parser": "iso_or_portuguese"
+  },
+  "olharsc": {
+    "base_url": "https://olharsc.com.br/category/noticias/page/{}",
+    "min_page": 1,
+    "max_page": 500,
+    "link_finder": {
+      "tag": "a",
+      "attrs": {
+        "class": "td-image-wrap"
+      }
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1",
+        "attrs": {
+          "class": "tdb-title-text"
+        }
+      },
+      "content": {
+        "tag": "div",
+        "attrs": {
+          "class": "td-post-content"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time",
+          "attrs": {
+            "class": "entry-date"
+          },
+          "attribute": "datetime"
+        }
+      ]
+    },
+    "date_parser": "iso_or_portuguese"
+  },
+  "gazetadopovo": {
+    "base_url": "https://www.gazetadopovo.com.br/ultimas-noticias/{}/",
+    "link_finder": {
+      "tag": "a",
+      "href_prefixes": [
+        "https://www.gazetadopovo.com.br/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1"
+      },
+      "content": {
+        "tag": "div",
+        "attrs": {
+          "class": "postLayout_section-content___jzhU"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "span",
+          "attrs": {
+            "class": "labelDate_header-label-date__Aourr"
+          }
+        }
+      ]
+    },
+    "date_parser": "other_format"
+  },
+  "clickcamboriu": {
+    "base_url": "https://clickcamboriu.com.br/geral/page/{}",
+    "link_finder": {
+      "tag": "a",
+      "href_prefixes": [
+        "https://clickcamboriu.com.br/geral/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1",
+        "attrs": {
+          "class": "tdb-title-text"
+        }
+      },
+      "content": {
+        "tag": "article",
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time",
+          "attrs": {
+            "class": "entry-date"
+          },
+          "attribute": "datetime"
+        }
+      ]
+    },
+    "date_parser": "iso_or_portuguese"
+  },
+  "correiosc": {
+    "base_url": "https://www.correiosc.com.br/categoria/estado/page/{}/",
+    "min_page": 1,
+    "max_page": 500,
+    "link_finder": {
+      "tag": "a",
+      "attrs": {
+        "class": "td-image-wrap"
+      }
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1",
+        "attrs": {
+          "class": "entry-title"
+        }
+      },
+      "content": {
+        "tag": "div",
+        "attrs": {
+          "class": "td-post-content"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time",
+          "attrs": {
+            "class": "entry-date"
+          },
+          "attribute": "datetime"
+        }
+      ]
+    },
+    "date_parser": "iso_or_portuguese"
+  },
+  "estado": {
+    "base_url": "https://estado.sc.gov.br/noticias/todas-as-noticias/page/{}/",
+    "link_finder": {
+      "tag": "a",
+      "attrs": {
+        "class": "elementor-post__thumbnail__link"
+      }
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h2",
+        "attrs": {
+          "class": "elementor-heading-title"
+        }
+      },
+      "content": {
+        "tag": "div",
+        "attrs": {
+          "class": "container"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time"
+        }
+      ]
+    },
+    "date_parser": "other_format"
+  },
+  "biguanews": {
+    "base_url": "https://biguanews.com.br/page/{}",
+    "link_finder": {
+      "tag": "h3",
+      "href_prefixes": [
+        "https://biguanews.com.br/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1",
+        "attrs": {
+          "class": "is-title"
+        }
+      },
+      "content": {
+        "tag": "article",
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time",
+          "attrs": {
+            "class": "post-date"
+          },
+          "attribute": "datetime"
+        }
+      ]
+    },
+    "date_parser": "iso_or_portuguese"
+  },
+  "agoralaguna": {
+    "base_url": "https://agoralaguna.com.br/page/{}",
+    "min_page": 1,
+    "max_page": 500,
+    "link_finder": {
+      "tag": "a",
+      "href_prefixes": [
+        "https://agoralaguna.com.br/20"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1",
+        "attrs": {
+          "class": "elementor-heading-title"
+        }
+      },
+      "content": {
+        "tag": "div",
+        "attrs": {
+          "class": "elementor-location-single"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time"
+        }
+      ]
+    },
+    "date_parser": "dmy"
+  },
+  "4oito": {
+    "base_url": "https://www.4oito.com.br/ultimas-noticias",
+    "link_finder": {
+      "tag": "a",
+      "href_prefixes": [
+        "https://www.4oito.com.br/noticias/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1"
+      },
+      "content": {
+        "tag": "div",
+        "attrs": {
+          "class": "content"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time"
+        }
+      ]
+    },
+    "date_parser": "iso_or_portuguese"
+  },
+  "ederluiz": {
+    "base_url": "https://ederluiz.com.vc/ultimas-noticias/page/{}/",
+    "link_finder": {
+      "tag": "a",
+      "href_prefixes": [
+        "https://ederluiz.com.vc/noticia/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1",
+        "attrs": {
+          "class": "title-post"
+        }
+      },
+      "content": {
+        "tag": "div",
+        "attrs": {
+          "class": "noticia"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time"
+        }
+      ]
+    },
+    "date_parser": "other_format"
+  },
+  "scc10": {
+    "base_url": "https://scc10.com.br/ultimas-noticias/page/{}/",
+    "link_finder": {
+      "tag": "a",
+      "href_prefixes": [
+        "https://scc10.com.br/radioclube/",
+        "https://scc10.com.br/economia/",
+        "https://scc10.com.br/especiais/",
+        "https://scc10.com.br/politica/",
+        "https://scc10.com.br/geral/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1",
+        "attrs": {
+          "class": "title--hidden"
+        }
+      },
+      "content": {
+        "tag": "div",
+        "attrs": {
+          "class": "main"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time"
+        }
+      ]
+    },
+    "date_parser": "iso_or_portuguese"
+  },
+  "ocpnews": {
+    "base_url": "https://ocp.news/ultimas-noticias/page/{}",
+    "min_page": 1,
+    "max_page": 500,
+    "link_finder": {
+      "tag": "a",
+      "href_prefixes": [
+        "https://ocp.news/cotidiano/",
+        "https://ocp.news/informe/",
+        "https://ocp.news/economia/",
+        "https://ocp.news/politica/",
+        "https://ocp.news/esporte/",
+        "https://ocp.news/entretenimento/",
+        "https://ocp.news/seguranca/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1",
+        "attrs": {
+          "class": "title"
+        }
+      },
+      "content": {
+        "tag": "section",
+        "attrs": {
+          "class": "pt-4"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "p",
+          "attrs": {
+            "class": "date"
+          }
+        }
+      ]
+    },
+    "date_parser": "dmy"
+  },
+  "hojesc": {
+    "base_url": "https://hojesc.com/ultimas-noticias/page/{}/",
+    "link_finder": {
+      "tag": "h2",
+      "href_prefixes": [
+        "https://hojesc.com/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1",
+        "attrs": {
+          "class": "entry-title"
+        }
+      },
+      "content": {
+        "tag": "article",
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time",
+          "attrs": {
+            "class": "entry-date"
+          },
+          "attribute": "datetime"
+        }
+      ]
+    },
+    "date_parser": "iso_or_portuguese"
+  },
+  "jornalsulbrasil": {
+    "base_url": "https://www.jornalsulbrasil.com/categoria/noticias/page/{}/",
+    "min_page": 1,
+    "max_page": 500,
+    "link_finder": {
+      "tag": "a",
+      "attrs": {
+        "class": "mega-menu-link"
+      }
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1",
+        "attrs": {
+          "class": "name"
+        }
+      },
+      "content": {
+        "tag": "div",
+        "attrs": {
+          "class": "entry"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "span",
+          "attrs": {
+            "class": "tie-date"
+          }
+        }
+      ]
+    },
+    "date_parser": "other_format"
+  },
+  "iclnoticias": {
+    "base_url": "https://iclnoticias.com.br/page/{}/?s=fraude",
+    "min_page": 1,
+    "max_page": 148,
+    "link_finder": {
+      "tag": "a",
+      "attrs": {
+        "class": "text-main-dark"
+      }
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1"
+      },
+      "content": {
+        "tag": "article",
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "time"
+        }
+      ]
+    },
+    "date_parser": "iso_or_portuguese"
+  },
+  "g1sc": {
+    "base_url": "https://g1.globo.com/busca/?q=fraude&page={}",
+    "min_page": 1,
+    "max_page": 100,
+    "link_finder": {
+      "tag": "a",
+      "href_prefixes": [
+        "https://g1.globo.com/"
+      ]
+    },
+    "article_selectors": {
+      "title": {
+        "tag": "h1",
+        "attrs": {
+          "class": "content-head__title"
+        }
+      },
+      "content": {
+        "tag": "div",
+        "attrs": {
+          "class": "mc-article-body"
+        },
+        "find_all": [
+          "p",
+          "h2",
+          "h3"
+        ]
+      },
+      "date": [
+        {
+          "tag": "p",
+          "attrs": {
+            "class": "content-publication-data__updated"
+          }
+        }
+      ]
+    },
+    "date_parser": "dmy"
+  }
+}

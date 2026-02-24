@@ -1,0 +1,531 @@
+############################## Dados iniciais padrão ###################################
+x-comum: &dados-comuns
+  env_file: '.env'
+  # depends_on:       
+  #   health:
+  #     condition: service_completed_successfully
+     
+############################## Microserviços ###################################
+services:
+  triggers:
+    image: jamesread/olivetin
+    <<: *dados-comuns
+    volumes: [./triggers:/config]
+    ports: [1337:1337]
+##  collector-dom:
+##    build: collector/dom
+##    image: ${REPO:-}collector-dom:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "dom_collector"
+##      OUTPUT_QUEUE: "dom_processor"
+##      ERROR_QUEUE: "dom_collector_erro"
+##  processor-dom:
+##    build: processor/dom
+##    image: ${REPO:-}processor-dom:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "dom_processor"
+##      OUTPUT_QUEUE: "dom_verifier"
+##      FAIL_QUEUE: "dom_processor_falha"
+##      ERROR_QUEUE: "dom_processor_erro"
+##  verifier-dom:
+##    build: verifier/dom
+##    image: ${REPO:-}verifier-dom:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "dom_verifier"
+##      OUTPUT_QUEUE: "all_quality_checker"
+##      FAIL_QUEUE: "dom_verifier_falha"
+##      ERROR_QUEUE: "dom_verifier_erro"
+### Teste Pipeline
+##  collector-teste:
+##    build: collector/teste
+##    image: ${REPO:-}collector-teste:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "teste_collector"
+##      OUTPUT_QUEUE: "teste_processor"
+##      ERROR_QUEUE: "teste_collector_erro"
+##    volumes:
+##      - ./collector/teste/data:/app/data
+##  processor-teste:
+##    build: processor/teste
+##    image: ${REPO:-}processor-teste:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "teste_processor"
+##      OUTPUT_QUEUE: "teste_verifier"
+##      FAIL_QUEUE: "teste_processor_falha"
+##      ERROR_QUEUE: "teste_processor_erro"
+##      RESOLVE_FK: "True"
+##  # Notas Pipeline
+##  collector-notas:
+##    build: collector/notas
+##    image: ${REPO:-}collector-notas:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "notas_collector"
+##      OUTPUT_QUEUE: "notas_processor"
+##      ERROR_QUEUE: "notas_collector_erro"
+##
+##  splitter-notas:
+##    build: splitter/notas
+##    image: ${REPO:-}splitter-notas:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "notas_splitter"
+##      OUTPUT_QUEUE: "notas_processor"
+##      ERROR_QUEUE: "notas_splitter_erro"
+##  processor-notas:
+##    build: processor/notas
+##    image: ${REPO:-}processor-notas:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "notas_processor"
+##      OUTPUT_QUEUE: "notas_verifier"
+##      FAIL_QUEUE: "notas_processor_falha"
+##      ERROR_QUEUE: "notas_processor_erro"
+##  verifier-notas:
+##    build: verifier/notas
+##    image: ${REPO:-}verifier-notas:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "notas_verifier"
+##      OUTPUT_QUEUE: "all_quality_checker"
+##      FAIL_QUEUE: "notas_verifier_falha"
+##      ERROR_QUEUE: "notas_verifier_erro"
+### Esfinge Pipeline
+##  collector-esfinge:
+##    build: collector/esfinge
+##    image: ${REPO:-}collector-esfinge:${TAG:-latest}
+##    <<: *dados-comuns
+##    volumes:
+##      - ./dataset_esfinge:/app/dataset_esfinge
+##    environment:
+##      INPUT_QUEUE: "esfinge_collector"
+##      OUTPUT_QUEUE: "esfinge_processor"
+##      ERROR_QUEUE: "esfinge_collector_erro"
+##  splitter-esfinge:
+##    build: splitter/esfinge
+##    image: ${REPO:-}splitter-esfinge:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "esfinge_splitter"
+##      OUTPUT_QUEUE: "esfinge_processor"
+##      ERROR_QUEUE: "esfinge_splitter_erro"
+##  processor-esfinge:
+##    build: processor/esfinge
+##    image: ${REPO:-}processor-esfinge:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "esfinge_processor"
+##      OUTPUT_QUEUE: "esfinge_verifier"
+##      FAIL_QUEUE: "esfinge_processor_falha"
+##      ERROR_QUEUE: "esfinge_processor_erro"
+##      RESOLVE_FK: "True"
+##  verifier-esfinge:
+##    build: verifier/esfinge
+##    image: ${REPO:-}verifier-esfinge:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "esfinge_verifier"
+##      OUTPUT_QUEUE: "all_quality_checker"
+##      FAIL_QUEUE: "esfinge_verifier_falha"
+##      ERROR_QUEUE: "esfinge_verifier_erro"
+### Epublica Pipeline
+##  collector-epublica:
+##    build: collector/epublica
+##    image: ${REPO:-}collector-epublica:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "epublica_collector"
+##      OUTPUT_QUEUE: "epublica_splitter"
+##      ERROR_QUEUE: "epublica_collector_erro"
+##  splitter-epublica:
+##    build: splitter/epublica
+##    image: ${REPO:-}splitter-epublica:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "epublica_splitter"
+##      OUTPUT_QUEUE: "epublica_processor"
+##      ERROR_QUEUE: "epublica_splitter_erro"
+##  processor-epublica:
+##    build: processor/epublica
+##    image: ${REPO:-}processor-epublica:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "epublica_processor"
+##      OUTPUT_QUEUE: "epublica_verifier"
+##      FAIL_QUEUE: "epublica_processor_falha"
+##      ERROR_QUEUE: "epublica_processor_erro"
+##  verifier-epublica:
+##    build: verifier/epublica
+##    image: ${REPO:-}verifier-epublica:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "epublica_verifier"
+##      OUTPUT_QUEUE: "all_quality_checker"
+##      FAIL_QUEUE: "epublica_verifier_falha"
+##      ERROR_QUEUE: "epublica_verifier_erro"
+##  # PNCP Pipeline
+##  collector-pncp:
+##    build: collector/pncp
+##    image: ${REPO:-}collector-pncp:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "pncp_collector"
+##      OUTPUT_QUEUE: "pncp_splitter"
+##      ERROR_QUEUE: "pncp_collector_erro"
+##  splitter-pncp:
+##    build: splitter/pncp
+##    image: ${REPO:-}splitter-pncp:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "pncp_splitter"
+##      OUTPUT_QUEUE: "pncp_processor"
+##      ERROR_QUEUE: "pncp_splitter_erro"  
+##      
+##  processor-pncp:
+##    build: processor/pncp
+##    image: ${REPO:-}processor-pncp:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "pncp_processor"
+##      OUTPUT_QUEUE: "pncp_verifier"
+##      FAIL_QUEUE: "pncp_processor_falha"
+##      ERROR_QUEUE: "pncp_processor_erro"
+##      RESOLVE_FK: "True"  
+##      
+##  verifier-pncp:
+##    build: verifier/pncp
+##    image: ${REPO:-}verifier-pncp:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "pncp_verifier"
+##      OUTPUT_QUEUE: "all_quality_checker"
+##      FAIL_QUEUE: "pncp_verifier_falha"
+##      ERROR_QUEUE: "pncp_verifier_erro"
+
+   # Noticias Pipeline
+  ##collector-noticias:
+  ##  build: collector/noticias
+  ##  image: ${REPO:-}collector-noticias:${TAG:-latest}
+  ##  <<: *dados-comuns
+  ##  volumes:
+  ##    # Maps your local file path (Host) to the internal folder (Container)
+  ##    - /home/paulo/Downloads/II_UPDATE_news_jsons:/app/local_news 
+  ##  environment:
+  ##    INPUT_QUEUE: "noticias_collector"
+  ##    OUTPUT_QUEUE: "noticias_processor"
+  ##    ERROR_QUEUE: "noticias_collector_erro"
+
+  # Noticias Pipeline
+  collector-noticias:
+    build: collector/noticias
+    image: ${REPO:-}collector-noticias:${TAG:-latest}
+    <<: *dados-comuns
+    volumes:
+      - ./collector/noticias/downloaded_news:/app/downloaded_news
+    environment:
+      INPUT_QUEUE: "noticias_collector"
+      OUTPUT_QUEUE: "noticias_processor_teste"
+      ERROR_QUEUE: "noticias_collector_erro"
+
+  processor-noticias:
+    build: processor/noticias
+    image: ${REPO:-}processor-noticias:${TAG:-latest}
+    <<: *dados-comuns
+    environment:
+      INPUT_QUEUE: "noticias_processor"
+      OUTPUT_QUEUE: "noticias_verifier"
+      FAIL_QUEUE: "noticias_processor_falha"
+      ERROR_QUEUE: "noticias_processor_erro"
+      OLLAMA_HOST: "https://ollama-dev.ceos.ufsc.br"
+      OLLAMA_MODEL: "qwen2.5:32b-instruct"
+
+  verifier-noticias:
+    build: verifier/noticias
+    image: ${REPO:-}verifier-noticias:${TAG:-latest}
+    <<: *dados-comuns
+    environment:
+      INPUT_QUEUE: "noticias_verifier"
+      OUTPUT_QUEUE: "all_quality_checker"
+      FAIL_QUEUE: "noticias_verifier_falha"
+      ERROR_QUEUE: "noticias_verifier_erro"
+
+  cross-reference-noticias:
+    build: post_flow/cross-reference-noticias
+    image: ${REPO:-}cross-reference-noticias:${TAG:-latest}
+    <<: *dados-comuns
+    environment:
+      INPUT_QUEUE: "cross-reference-noticias"
+      INPUT_TOPIC: "db_events"
+      INPUT_BINDINGS: '["insert.noticias"]'
+      OUTPUT_QUEUE: "all_quality_checker"
+      FAIL_QUEUE: "cross-reference-noticias_falha"
+      ERROR_QUEUE: "cross-reference-noticias_erro"
+      VERBOSE: "all"
+      OLLAMA_HOST: "https://ollama-dev.ceos.ufsc.br"
+      OLLAMA_MODEL: "qwen2.5:32b-instruct"
+
+  # Shared Services
+  quality-checker:
+    build: quality-checker
+    image: ${REPO:-}quality-checker:${TAG:-latest}
+    <<: *dados-comuns
+    environment:
+      INPUT_QUEUE: "all_quality_checker"
+      OUTPUT_QUEUE: "all_inserter_updater"
+      FAIL_QUEUE: "all_quality_checker_falha"
+      ERROR_QUEUE: "all_quality_checker_erro"
+
+  inserter-updater:
+    build: inserter-updater
+    image: ${REPO:-}inserter-updater:${TAG:-latest}
+    <<: *dados-comuns
+    environment:
+      INPUT_QUEUE: "all_inserter_updater"
+      OUTPUT_QUEUE: "all_notificacao_insercao_atualizacao"
+      OUTPUT_TOPIC: "db_events"
+      FAIL_QUEUE: "all_inserter_updater_falha"
+      ERROR_QUEUE: "all_inserter_updater_erro"
+      VERBOSE: "all"
+
+##  classifier-nfe:
+##    build: post_flow/classifier-nfe
+##    image: ${REPO:-}classifier-nfe:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "classifier-nfe"
+##      INPUT_TOPIC: "db_events"
+##      INPUT_BINDINGS: '["insert.NFE","update.NFE", "insert_update.NFE"]'
+##      OUTPUT_QUEUE: "all_quality_checker"
+##      FAIL_QUEUE: "classifier-nfe_falha"
+##      ERROR_QUEUE: "classifier_nfe_erro"
+##  grouper-nfe:
+##    build: post_flow/grouper-nfe
+##    image: ${REPO:-}grouper-nfe:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "grouper-nfe"
+##      INPUT_TOPIC: "db_events"
+##      INPUT_BINDINGS: '["insert.CLASSIFICACAO_PRODUTO_SERVICO" , "insert_update.CLASSIFICACAO_PRODUTO_SERVICO"]'
+##      FAIL_QUEUE: "grouper-nfe_falha"
+##      OUTPUT_QUEUE: "all_quality_checker"
+##      ERROR_QUEUE: "grouper_nfe_erro"
+##  grouper-medicamentos:
+##    build: post_flow/grouper-nfe/groupers/grouper-medicamentos
+##    image: ${REPO:-}grouper-medicamentos:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "grouper-medicamentos"
+##      OUTPUT_QUEUE: "all_quality_checker"
+##      FAIL_QUEUE: "grouper-medicamentos_falha"
+##      ERROR_QUEUE: "grouper-medicamentos_erro"
+##
+##  linker-nfe:
+##    build: post_flow/linker-nfe
+##    image: ${REPO:-}linker-nfe:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "linker-nfe"
+##      INPUT_TOPIC: "db_events"
+##      INPUT_BINDINGS: '["insert.NFE","update.NFE", "insert_update.NFE"]'
+##      OUTPUT_QUEUE: "all_quality_checker"
+##      ERROR_QUEUE: "linker_nfe_erro"
+##      
+##  alerts_manager:
+##    build: alerts_manager
+##    image: ${REPO:-}alerts_manager:${TAG:-latest}
+##    <<: *dados-comuns
+##    environment:
+##      INPUT_QUEUE: "alerts_manager"
+##      INPUT_TOPIC: "db_events"
+##      INPUT_BINDINGS: '["insert.processo_licitatorio","update.processo_licitatorio", "insert_update.DOM"]'
+##      OUTPUT_QUEUE: "all_inserter_updater"
+##      ERROR_QUEUE: "alerts_manager_erro"
+
+
+############################## Basic Services ###################################
+  # health:
+  #   env_file: ".env"
+  #   restart: "no"
+  #   build:
+  #     context: .
+  #     dockerfile: .devcontainer/health/Dockerfile
+  #   depends_on:
+  #     mongodb:
+  #       condition: service_healthy
+  #     rabbitmq:
+  #       condition: service_healthy
+  #     postgresql:
+  #       condition: service_healthy
+  #     mongo-express:
+  #       condition: service_started
+  postgresql:
+    image: postgres:15-alpine
+    env_file: '.env'
+    environment:
+      POSTGRES_DB: ${DATABASE_PG:-local}
+      POSTGRES_USER: ${USERNAME_PG:-admin}
+      POSTGRES_PASSWORD: ${SENHA_PG:-admin}
+    ports: [5433:5432]
+    volumes:
+      - /dev/shm:/dev/shm
+      - ./service_essentials/postgres_manager:/docker-entrypoint-initdb.d
+      - ./data/postgresql:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$USERNAME_PG -d $$DATABASE_PG && psql -U $$USERNAME_PG -d $$DATABASE_PG -c 'SELECT 1' > /dev/null 2>&1"]
+      interval: 5s
+      timeout: 10s
+      retries: 15
+      start_period: 40s
+  orientdb:
+    image: orientdb:3.2.38
+    ports:
+      - "2424:2424"
+      - "2480:2480"
+    volumes:
+      - ./data/orientdb:/orientdb/databases
+    environment:
+      - ORIENTDB_NODE_NAME=orientdb
+      - ORIENTDB_ROOT_PASSWORD=admin
+
+  orientdb-init:
+    image: alpine:latest
+    depends_on:
+      - orientdb
+    env_file: '.env'
+    volumes:
+      - ./service_essentials/orientdb_manager:/scripts
+    command: sh /scripts/init-orientdb.sh
+    restart: "no"
+    
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000" # MinIO Console
+      - "9001:9001" # MinIO Admin Console
+    env_file: '.env'
+    volumes:
+      - ./data/minio:/data
+
+  mongodb:
+    image: mongo:6
+    ports: [2717:27017]
+    volumes:
+      - ./data/mongodb:/data/db
+      - ./service_essentials/mongodb_ingestor:/docker-entrypoint-initdb.d
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: local
+      MONGO_INITDB_ROOT_PASSWORD: locallocallocal
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: "none"
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: local
+      ME_CONFIG_MONGODB_ADMINPASSWORD: locallocallocal
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin
+      ME_CONFIG_SITE_VERBOSE: "false"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    entrypoint: ["sh", "-c", "node app.js > /dev/null 2>&1"]
+    logging:
+      driver: "none"
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_SERVER_JSON_FILE: /pgadmin4/servers.json
+    user: root
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+      - ./service_essentials/pgadmin_config/servers.json:/pgadmin4/servers.json:ro
+      - ./service_essentials/pgadmin_config/pgpass:/pgadmin4/pgpass:ro
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      cp /pgadmin4/pgpass /var/lib/pgadmin/pgpass &&
+      chmod 600 /var/lib/pgadmin/pgpass &&
+      chown root:root /var/lib/pgadmin/pgpass &&
+      /entrypoint.sh
+      "
+    logging:
+      driver: "none"
+
+  rabbitmq:
+    image: rabbitmq:management
+##    hostname: f2231f6baece
+    ports:
+      - "5672:5672" 
+      - "15672:15672"
+    env_file: '.env'
+    environment:
+##      RABBITMQ_NODENAME: rabbit@f2231f6baece
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbit max_message_size 52428800 -rabbit consumer_timeout 3600000"
+    # Volume comentado para não persistir filas entre reinicializações
+    # volumes:
+    #   - ./data/rabbitmq:/var/lib/rabbitmq
+    healthcheck:
+      retries: 3
+      timeout: 300s # Padrão: 30
+      interval: 30s # Padrão: 30
+      start_period: 5s
+      test: rabbitmq-diagnostics -q ping
+    depends_on:
+      - ceos-base 
+      - minio
+
+
+
+  ceos-base:
+    build: .
+    image: ceos-base
+    command: sleep infinity
+
+  # Queue Manager Interface
+  queue-manager:
+    build: interfaces/queue_manager
+    image: ${REPO:-}queue-manager:${TAG:-latest}
+    env_file: '.env'
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "5555:5555"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672 
+      RABBITMQ_USER: admin
+      RABBITMQ_PASSWORD: admin
+      RABBITMQ_CONTAINER_NAME: main-server-rabbitmq-1
+      DOCKER_COMPOSE_FILE: /project/docker-compose.yml
+      PROJECT_NAME: main-server
+      CONTAINER_NAME_PREFIX: main-server-
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/project:ro
